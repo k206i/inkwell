@@ -14,6 +14,15 @@ const routes: Array<RouteRecordRaw> = [
   }
 ]
 
+// Страница подбора эмоций визора: только для разработки, в релизную сборку не попадает
+if ( import.meta.env.DEV ) {
+  routes.push( {
+    path: '/visor',
+    name: 'Visor',
+    component: () => import( '@/views/VisorPage/visorPage.vue' )
+  } );
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes

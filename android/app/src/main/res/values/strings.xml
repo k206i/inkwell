@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Чернильница</string>
+    <string name="title_activity_main">Чернильница</string>
+    <string name="package_name">ru.kliukin.inkwell</string>
+    <string name="custom_url_scheme">ru.kliukin.inkwell</string>
+</resources>

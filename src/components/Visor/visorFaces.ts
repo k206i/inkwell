@@ -104,9 +104,9 @@ const cross = ( cx: number, cy: number, r: number ): TPart => polyline(
 );
 
 const question: TPart = join(
-  arc( 70, 34, 11, 11, 180, 360, 2 ),
-  { start: [ 81, 34 ], segments: [ [ [ 81, 43 ], [ 70, 43 ], [ 70, 51 ] ] ] },
-  line( [ 70, 51 ], [ 70, 57 ], 1 ),
+  arc( 70, 24, 11, 11, 180, 360, 2 ),
+  { start: [ 81, 24 ], segments: [ [ [ 81, 33 ], [ 70, 33 ], [ 70, 41 ] ] ] },
+  line( [ 70, 41 ], [ 70, 47 ], 1 ),
 );
 
 const toPath = ( part: TPart ): string => {
@@ -123,19 +123,19 @@ const face = ( left: TPart, right: TPart, dash: string = SOLID ): [ TVisorStroke
 // Бокс 140×100 повторяет пропорции визора. Каждая полоска — старт и четыре кривые,
 // одиночные фигуры собираются из двух половинок, которые встречаются в центре
 export const visorFaces: Record<TVisorEmotion, [ TVisorStroke, TVisorStroke ]> = {
-  neutral: face( line( [ 24, 50 ], [ 70, 50 ], 4 ), line( [ 70, 50 ], [ 116, 50 ], 4 ) ),
+  neutral: face( line( [ 24, 40 ], [ 70, 40 ], 4 ), line( [ 70, 40 ], [ 116, 40 ], 4 ) ),
   joy: face( arc( 70, 66, 40, 33, 160, 90, 4 ), arc( 70, 66, 40, 33, 90, 20, 4 ) ),
   happiness: face(
-    polyline( [ 29, 58 ], [ 36.5, 51 ], [ 44, 44 ], [ 51.5, 51 ], [ 59, 58 ] ),
-    polyline( [ 81, 58 ], [ 88.5, 51 ], [ 96, 44 ], [ 103.5, 51 ], [ 111, 58 ] ),
+    polyline( [ 24, 48 ], [ 31.5, 41 ], [ 39, 34 ], [ 46.5, 41 ], [ 54, 48 ] ),
+    polyline( [ 86, 48 ], [ 93.5, 41 ], [ 101, 34 ], [ 108.5, 41 ], [ 116, 48 ] ),
   ),
-  delight: face( sparkle( 44, 48, 16 ), sparkle( 96, 48, 16 ) ),
+  delight: face( sparkle( 39, 38, 16 ), sparkle( 101, 38, 16 ) ),
   laughter: face(
-    polyline( [ 30, 36 ], [ 41, 42 ], [ 52, 48 ], [ 41, 54 ], [ 30, 60 ] ),
-    polyline( [ 110, 36 ], [ 99, 42 ], [ 88, 48 ], [ 99, 54 ], [ 110, 60 ] ),
+    polyline( [ 25, 26 ], [ 36, 32 ], [ 47, 38 ], [ 36, 44 ], [ 25, 50 ] ),
+    polyline( [ 115, 26 ], [ 104, 32 ], [ 93, 38 ], [ 104, 44 ], [ 115, 50 ] ),
   ),
-  smile: face( arc( 44, 56, 15, 13, 200, 340, 4 ), arc( 96, 56, 15, 13, 200, 340, 4 ) ),
-  calm: face( arc( 44, 52, 12, 6, 200, 340, 4 ), arc( 96, 52, 12, 6, 200, 340, 4 ) ),
+  smile: face( arc( 39, 46, 15, 13, 200, 340, 4 ), arc( 101, 46, 15, 13, 200, 340, 4 ) ),
+  calm: face( arc( 39, 42, 12, 6, 200, 340, 4 ), arc( 101, 42, 12, 6, 200, 340, 4 ) ),
   sadness: face( arc( 70, 98, 40, 22, 200, 270, 4 ), arc( 70, 98, 40, 22, 270, 340, 4 ) ),
   anger: face( line( [ 26, 14 ], [ 70, 42 ], 4 ), line( [ 70, 42 ], [ 114, 14 ], 4 ) ),
   irritation: face( line( [ 26, 22 ], [ 60, 34 ], 4 ), line( [ 80, 34 ], [ 114, 22 ], 4 ) ),
@@ -143,18 +143,18 @@ export const visorFaces: Record<TVisorEmotion, [ TVisorStroke, TVisorStroke ]> =
     polyline( [ 24, 20 ], [ 35.5, 31 ], [ 47, 42 ], [ 58.5, 33 ], [ 70, 24 ] ),
     polyline( [ 70, 24 ], [ 81.5, 33 ], [ 93, 42 ], [ 104.5, 31 ], [ 116, 20 ] ),
   ),
-  tiredness: face( line( [ 24, 50 ], [ 70, 50 ], 4 ), line( [ 70, 50 ], [ 116, 50 ], 4 ), DASHED ),
+  tiredness: face( line( [ 24, 40 ], [ 70, 40 ], 4 ), line( [ 70, 40 ], [ 116, 40 ], 4 ), DASHED ),
   boredom: face( line( [ 38, 82 ], [ 70, 82 ], 4 ), line( [ 70, 82 ], [ 102, 82 ], 4 ) ),
   shock: face( arc( 70, 80, 18, 18, 90, 270, 4 ), arc( 70, 80, 18, 18, 270, 450, 4 ) ),
-  surprise: face( arc( 44, 48, 13, 13, 180, 540, 4 ), arc( 96, 48, 13, 13, 180, 540, 4 ) ),
-  interest: face( line( [ 52, 58 ], [ 70, 40 ], 4 ), line( [ 70, 40 ], [ 88, 58 ], 4 ) ),
-  love: face( heart( 44, 48, 30 ), heart( 96, 48, 30 ) ),
-  curiosity: face( question, line( [ 70, 69 ], [ 70, 69.01 ], 4 ) ),
-  sleep: face( line( [ 32, 60 ], [ 70, 60 ], 4 ), line( [ 70, 60 ], [ 108, 60 ], 4 ) ),
-  overload: face( cross( 44, 48, 10 ), cross( 96, 48, 10 ) ),
+  surprise: face( arc( 39, 38, 13, 13, 180, 540, 4 ), arc( 101, 38, 13, 13, 180, 540, 4 ) ),
+  interest: face( line( [ 52, 48 ], [ 70, 30 ], 4 ), line( [ 70, 30 ], [ 88, 48 ], 4 ) ),
+  love: face( heart( 39, 38, 30 ), heart( 101, 38, 30 ) ),
+  curiosity: face( question, line( [ 70, 59 ], [ 70, 59.01 ], 4 ) ),
+  sleep: face( line( [ 32, 50 ], [ 70, 50 ], 4 ), line( [ 70, 50 ], [ 108, 50 ], 4 ) ),
+  overload: face( cross( 39, 38, 10 ), cross( 101, 38, 10 ) ),
   confusion: face( arc( 35, 16, 14, 9, 200, 340, 4 ), arc( 105, 18, 16, 6, 154, 26, 4 ) ),
   noise: face(
-    polyline( [ 24, 56 ], [ 35.5, 44 ], [ 47, 56 ], [ 58.5, 44 ], [ 70, 56 ] ),
-    polyline( [ 70, 56 ], [ 81.5, 44 ], [ 93, 56 ], [ 104.5, 44 ], [ 116, 56 ] ),
+    polyline( [ 24, 46 ], [ 35.5, 34 ], [ 47, 46 ], [ 58.5, 34 ], [ 70, 46 ] ),
+    polyline( [ 70, 46 ], [ 81.5, 34 ], [ 93, 46 ], [ 104.5, 34 ], [ 116, 46 ] ),
   ),
 };

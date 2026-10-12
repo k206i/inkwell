@@ -1,0 +1,18 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var( --ink-size-gap );
+  padding-top: var( --ink-size-gap-xl );
+
+  &__mascot {
+    width: 60%;
+    max-width: 260px;
+  }
+
+  &__version {
+    margin: 0;
+    font-size: 14px;
+    color: var( --ink-color-font-low );
+  }
+}

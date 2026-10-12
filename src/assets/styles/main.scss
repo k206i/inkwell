@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var( --ink-font-default );
+  font-size: 16px;
+  line-height: 1.4;
+  color: var( --ink-color-font );
+
+  a {
+    color: var( --ink-color-theme );
+    text-decoration: underline;
+  }
+}

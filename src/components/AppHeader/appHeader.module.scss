@@ -1,0 +1,22 @@
+.appHeader {
+  flex-direction: row;
+  justify-content: space-between;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var( --ink-size-gap );
+    padding: var( --ink-size-gap-xs );
+    font-family: var( --ink-font-default );
+    font-size: 18px;
+  }
+
+  &__leftPlaceholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    aspect-ratio: 1;
+    padding: 0 10px;
+  }
+}

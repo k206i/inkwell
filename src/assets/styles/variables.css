@@ -1,0 +1,65 @@
+/* For information on how to create your own theme, please refer to:
+http://ionicframework.com/docs/theming/ */
+
+.accent {
+    color: var( --ink-color-font-accent );
+}
+
+.accent-theme {
+    color: var( --ink-color-theme );
+}
+
+.translucent-bar ion-toolbar {
+    --background: rgba( var( --ink-color-theme-dark_rgb ), .9 );
+    backdrop-filter: blur( 10px );
+}
+
+:root {
+    --ion-font-family: var( --ink-font-default );
+    --ion-padding: var( --ink-size-side-indent );
+
+    --ion-color-primary: var( --ink-color-theme );
+    --ion-color-primary-rgb: 168,139,250;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0,0,0;
+    --ion-color-primary-shade: #947adc;
+    --ion-color-primary-tint: #b197fb;
+
+    --ion-color-success: var( --ink-color-success );
+    --ion-color-success-rgb: 214,178,94;
+    --ion-color-success-contrast: #000000;
+    --ion-color-success-contrast-rgb: 0,0,0;
+    --ion-color-success-shade: #bc9d53;
+    --ion-color-success-tint: #daba6e;
+
+    --ion-color-warning: var( --ink-color-warning );
+    --ion-color-warning-rgb: 242,179,72;
+    --ion-color-warning-contrast: #000000;
+    --ion-color-warning-contrast-rgb: 0,0,0;
+    --ion-color-warning-shade: #d59e3f;
+    --ion-color-warning-tint: #f3bb5a;
+
+    --ion-color-danger: var( --ink-color-error );
+    --ion-color-danger-rgb: 217,72,59;
+    --ion-color-danger-contrast: #ffffff;
+    --ion-color-danger-contrast-rgb: 255,255,255;
+    --ion-color-danger-shade: #bf3f34;
+    --ion-color-danger-tint: #dd5a4f;
+}
+
+/* Тёмная палитра Ionic задаёт эти переменные на :root.ios и :root.md, поэтому перекрываем там же */
+:root.ios,
+:root.md {
+    --ion-background-color: var( --ink-color-bg );
+    --ion-background-color-rgb: var( --ink-color-bg_rgb );
+    --ion-text-color: var( --ink-color-font );
+    --ion-border-color: var( --ink-color-border );
+
+    --ion-toolbar-background: var( --ink-color-theme-dark );
+    --ion-toolbar-border-color: var( --ink-color-border );
+
+    --ion-tab-bar-background: var( --ink-color-theme-dark );
+    --ion-tab-bar-border-color: var( --ink-color-border );
+    --ion-tab-bar-color: var( --ink-color-font-low );
+    --ion-tab-bar-color-selected: var( --ink-color-theme );
+}

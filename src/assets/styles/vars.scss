@@ -1,0 +1,69 @@
+:root {
+  --ink-size-gap-base: 8px;
+  --ink-size-gap-xxs: calc( var( --ink-size-gap-base ) / 4 ); // 2px
+  --ink-size-gap-xs: calc( var( --ink-size-gap-base ) / 2 ); // 4px
+  --ink-size-gap-s: var( --ink-size-gap-base ); // 8px
+  --ink-size-gap: calc( var( --ink-size-gap-base ) * 2 ); // 16px
+  --ink-size-gap-l: calc( var( --ink-size-gap-base ) * 3 ); // 24px
+  --ink-size-gap-xl: calc( var( --ink-size-gap-base ) * 4 ); // 32px
+  --ink-size-side-indent: var( --ink-size-gap ); // 16px
+
+  --ink-size-border-radius-base: 8px;
+  --ink-size-border-radius-xs: calc( var( --ink-size-border-radius-base ) / 2 ); // 4px
+  --ink-size-border-radius-s: var( --ink-size-border-radius-base ); // 8px
+  --ink-size-border-radius: calc( var( --ink-size-border-radius-base ) * 2 ); // 16px
+
+  --ink-z-index-layout: 100;
+  --ink-z-index-tooltip: 200;
+  --ink-z-index-dropdown: 300;
+  --ink-z-index-header: 350;
+  --ink-z-index-overlay: 400;
+  --ink-z-index-popup: 500;
+  --ink-z-index-modal: 1000;
+
+  // Transitions
+  --ink-transition-duration: .3s;
+  --ink-transition-all: all ease var( --ink-transition-duration );
+  --ink-transition-height: height ease var( --ink-transition-duration );
+  --ink-transition-border: border ease var( --ink-transition-duration );
+  --ink-transition-opacity: opacity ease var( --ink-transition-duration );
+  --ink-transition-filter: filter ease var( --ink-transition-duration );
+  --ink-transition-color: color ease var( --ink-transition-duration );
+  --ink-transition-transform: transform ease var( --ink-transition-duration );
+
+  // Defaults
+  --ink-font-default: 'Roboto', sans-serif;
+  --ink-font-paper: serif;
+  --ink-color-font: #ece8f4;
+  --ink-color-font-low: #8f88a3;
+  --ink-color-font-accent: #fff;
+  --ink-color-theme: #a88bfa;
+  --ink-color-theme_rgb: 168, 139, 250;
+  --ink-color-theme-dark: #1b1726;
+  --ink-color-theme-dark_rgb: 27, 23, 38;
+  --ink-color-theme-bg: var( --ink-color-theme-dark );
+  --ink-color-bg: #121019;
+  --ink-color-bg_rgb: 18, 16, 25;
+  --ink-color-border: #2e2840;
+  --ink-color-success: #d6b25e;
+  --ink-color-warning: #f2b348;
+  --ink-color-error: #d9483b;
+
+  // Рукопись: бумага, чернила игрока, клякса
+  --ink-color-paper: #f2ebdd;
+  --ink-color-paper-font: #2a2433;
+  --ink-color-paper-gap: #b9ae99;
+  --ink-color-ink: #5b3cc4;
+  --ink-color-blot: #2b1a55;
+
+  --ink-color-white: #fff;
+  --ink-color-white-80: rgba( 255, 255, 255, .8 );
+  --ink-color-white-50: rgba( 255, 255, 255, .5 );
+  --ink-color-white-20: rgba( 255, 255, 255, .2 );
+  --ink-color-white-10: rgba( 255, 255, 255, .1 );
+  --ink-color-white-5: rgba( 255, 255, 255, .05 );
+
+  --ink-color-black: #000;
+  --ink-color-black-50: rgba( 0, 0, 0, .5 );
+  --ink-color-black-5: rgba( 0, 0, 0, .05 );
+}

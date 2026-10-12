@@ -20,6 +20,13 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
+import '@ionic/vue/css/palettes/dark.always.css'
+
+/* Theme variables */
+import './assets/styles/vars.scss';
+import './assets/styles/variables.css';
+import './assets/styles/main.scss';
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);

@@ -1,0 +1,9 @@
+.appFooter {
+  font-family: var( --ink-font-default );
+  font-size: 14px;
+  text-align: center;
+
+  &__thanks {
+    color: var( --ink-color-font-low );
+  }
+}

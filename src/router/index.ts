@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import HomePage from '@/views/HomePage/homePage.vue';
+import VisorPage from '@/views/VisorPage/visorPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -11,17 +12,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/home',
     name: 'Home',
     component: HomePage
-  }
-]
-
-// Страница подбора эмоций визора: только для разработки, в релизную сборку не попадает
-if ( import.meta.env.DEV ) {
-  routes.push( {
+  },
+  {
     path: '/visor',
     name: 'Visor',
-    component: () => import( '@/views/VisorPage/visorPage.vue' )
-  } );
-}
+    component: VisorPage
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

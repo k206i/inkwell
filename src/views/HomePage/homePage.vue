@@ -5,7 +5,6 @@ import AppHeader from '@/components/AppHeader/appHeader.vue';
 import AppFooter from '@/components/AppFooter/appFooter.vue';
 
 const appVersion: string = __APP_VERSION__;
-const isDev: boolean = import.meta.env.DEV;
 </script>
 
 <template>
@@ -22,7 +21,7 @@ const isDev: boolean = import.meta.env.DEV;
 
         <p :class="styles.homePage__version">v{{ appVersion }}</p>
 
-        <router-link v-if="isDev" to="/visor" :class="styles.homePage__visorLink">
+        <router-link to="/visor" :class="styles.homePage__visorLink">
           Эмоции визора
         </router-link>
       </div>

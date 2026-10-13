@@ -1,9 +1,26 @@
 export type TVisorEmotion =
-  'neutral' | 'joy' | 'happiness' | 'delight' | 'laughter' |
-  'smile' | 'calm' | 'sadness' | 'anger' | 'irritation' |
-  'rage' | 'tiredness' | 'boredom' | 'shock' | 'surprise' |
-  'interest' | 'love' | 'curiosity' | 'sleep' | 'overload' |
-  'confusion' | 'noise';
+  | 'neutral'     // нейтрально
+  | 'joy'         // радость
+  | 'happiness'   // счастье
+  | 'delight'     // восторг
+  | 'laughter'    // смех
+  | 'smile'       // улыбка
+  | 'calm'        // спокойствие
+  | 'sadness'     // грусть
+  | 'anger'       // злость
+  | 'irritation'  // раздражение
+  | 'rage'        // ярость
+  | 'tiredness'   // усталость
+  | 'boredom'     // скука
+  | 'shock'       // шок
+  | 'surprise'    // удивление
+  | 'interest'    // интерес
+  | 'love'        // влюблённость
+  | 'curiosity'   // любопытство
+  | 'sleep'       // сон
+  | 'overload'    // перегрузка
+  | 'confusion'   // непонятно
+  | 'noise';      // шум
 
 export type TVisorStroke = {
   d: string,

@@ -1,0 +1,17 @@
+.saelianMascot {
+  position: relative;
+
+  &__image {
+    display: block;
+    width: 100%;
+  }
+
+  // Бокс эмоций внутри стекла визора на sae_cross.webp, с отступом от краёв стекла
+  &__visor {
+    position: absolute;
+    top: 14.8%;
+    left: 35.6%;
+    width: 29.4%;
+    aspect-ratio: 140 / 100;
+  }
+}

@@ -11,6 +11,7 @@ import { getRuleById } from '@/api/getRuleById';
 import type { TRule } from '@/api/getRules';
 import { fillGaps, getGaps, parseGaps, type TGap, type TTextPart } from '@/composables/parseGaps';
 import { declineUnit } from '@/composables/declineUnit';
+import { shuffle } from '@/composables/shuffle';
 import { addInk, appStore } from '@/store/appStore';
 import { appVars } from '@/configApp';
 
@@ -19,13 +20,14 @@ type TResult = 'idle' | 'right' | 'wrong';
 const route = useRoute();
 const rule = ref< TRule | null >( null );
 const isLoaded = ref< boolean >( false );
-const questionIndex = ref< number >( 0 );
+const deck = ref< number[] >( [] ); // перемешанные номера вопросов
+const position = ref< number >( 0 );
 const attempt = ref< number >( 0 ); // ключ GapText: новый вопрос — новое перемешивание вариантов
 const drafts = ref< ( string | null )[] >( [] );
 const result = ref< TResult >( 'idle' );
 const earned = ref< number >( 0 );
 
-const question = computed( (): string => rule.value?.questions[questionIndex.value] ?? '' );
+const question = computed( (): string => rule.value?.questions[deck.value[position.value]] ?? '' );
 const parts = computed( (): TTextPart[] => parseGaps( question.value ));
 const gaps = computed( (): TGap[] => getGaps( parts.value ));
 const answerText = computed( (): string => fillGaps( parts.value, gaps.value.map( ( gap: TGap ) => gap.answer )));
@@ -37,9 +39,21 @@ const resetQuestion = () => {
   attempt.value += 1;
 };
 
+// Каждый вопрос по разу за круг, и новый круг не начинается с только что показанного
+const shuffleDeck = ( last: number | null ): number[] => {
+  const indexes: number[] = shuffle([ ...( rule.value?.questions ?? [] ).keys() ]);
+
+  if ( indexes.length > 1 && indexes[0] === last ) {
+    [ indexes[0], indexes[1] ] = [ indexes[1], indexes[0] ];
+  }
+
+  return indexes;
+};
+
 getRuleById( String( route.params.ruleId )).then( ( found: TRule | null ) => {
   rule.value = found;
   isLoaded.value = true;
+  deck.value = shuffleDeck( null );
   resetQuestion();
 });
 
@@ -60,7 +74,13 @@ const onAnswer = () => {
 };
 
 const onNext = () => {
-  questionIndex.value = ( questionIndex.value + 1 ) % ( rule.value?.questions.length ?? 1 );
+  if ( position.value + 1 < deck.value.length ) {
+    position.value += 1;
+  } else {
+    deck.value = shuffleDeck( deck.value[position.value] );
+    position.value = 0;
+  }
+
   resetQuestion();
 };
 </script>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { IonContent, IonModal } from '@ionic/vue';
 import { computed, ref, watch } from 'vue';
 import styles from './gapText.module.scss';
 import PaperSheet from '@/components/PaperSheet/paperSheet.vue';
 import { getGaps, getOptionLabel, parseGaps, type TGap, type TGapResult, type TTextPart } from '@/composables/parseGaps';
 import { shuffle } from '@/composables/shuffle';
+import { getRuleById } from '@/api/getRuleById';
+import type { TRule } from '@/api/getRules';
 
 const props = defineProps<{
   text: string,
@@ -21,6 +24,8 @@ const gaps = computed( (): TGap[] => getGaps( parts.value ));
 const shuffledOptions = computed( (): string[][] => gaps.value.map( ( gap: TGap ) => shuffle( gap.options )));
 const active = ref< number >( 0 );
 const activeGap = computed( (): TGap | null => props.disabled ? null : gaps.value[active.value] ?? null );
+const hintRule = ref< TRule | null >( null );
+const isHintOpen = ref< boolean >( false );
 
 // Открыт для выбора пустой пропуск и напечатанный с ошибкой
 const isOpen = ( index: number, draftList: ( string | null )[], resultList: TGapResult[] ): boolean => {
@@ -74,6 +79,15 @@ const onChoose = ( option: string ) => {
   active.value = findOpen( active.value + 1, nextDrafts, nextResults );
 };
 
+const onWhy = async () => {
+  if ( !activeGap.value ) {
+    return;
+  }
+
+  hintRule.value = await getRuleById( activeGap.value.ruleId );
+  isHintOpen.value = hintRule.value !== null;
+};
+
 defineExpose({
   moveHeadTo: ( index: number ): Promise< void > => sheet.value?.moveHeadTo( index ) ?? Promise.resolve(),
   parkHead: (): Promise< void > => sheet.value?.parkHead() ?? Promise.resolve(),
@@ -100,16 +114,35 @@ defineExpose({
             :class="styles.gapText__option"
             type="button"
             @click="onChoose( option )"
-        >{{ getOptionLabel( option ) }}</button>
+        >{{ getOptionLabel( option, activeGap.options ) }}</button>
       </div>
 
-      <router-link
+      <button
           v-if="activeGap.ruleId"
-          :class="styles.gapText__rule"
-          :to="`/rules/${ activeGap.ruleId }`"
+          :class="styles.gapText__why"
+          type="button"
+          @click="onWhy"
       >
         Почему так?
-      </router-link>
+      </button>
     </div>
+
+    <ion-modal
+        :breakpoints="[ 0, 0.4, 0.8 ]"
+        :initial-breakpoint="0.4"
+        :is-open="isHintOpen"
+        @did-dismiss="isHintOpen = false"
+    >
+      <ion-content class="ion-padding">
+        <template v-if="hintRule">
+          <h2 :class="styles.gapText__hintTitle">{{ hintRule.title }}</h2>
+          <p>{{ hintRule.hint }}</p>
+
+          <router-link :to="`/rules/${ hintRule.id }`" @click="isHintOpen = false">
+            Подробнее
+          </router-link>
+        </template>
+      </ion-content>
+    </ion-modal>
   </div>
 </template>

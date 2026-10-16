@@ -3,6 +3,16 @@
     margin-bottom: var( --ink-size-gap );
   }
 
+  &__rule {
+    margin-bottom: var( --ink-size-gap );
+    line-height: 1.5;
+  }
+
+  &__title {
+    margin: 0 0 var( --ink-size-gap-s );
+    font-size: 18px;
+  }
+
   &__actions {
     display: flex;
     flex-direction: column;

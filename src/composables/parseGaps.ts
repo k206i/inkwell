@@ -48,7 +48,18 @@ export const fillGaps = ( parts: TTextPart[], values: string[] ): string => part
   .map( ( part: TTextPart ) => part.kind === 'gap' ? values[part.gap.index] : part.value )
   .join( '' );
 
-export const getOptionLabel = ( option: string ): string => {
+// Выбор между пробелом и «ничего» проверяет слитное и раздельное написание
+export const getOptionLabel = ( option: string, options: string[] ): string => {
+  if ( options.includes( ' ' ) && options.includes( '' )) {
+    if ( option === ' ' ) {
+      return 'раздельно';
+    }
+
+    if ( option === '' ) {
+      return 'слитно';
+    }
+  }
+
   if ( option === '' ) {
     return 'ничего';
   }

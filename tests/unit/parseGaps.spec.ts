@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { fillGaps, getGaps, parseGaps } from '@/composables/parseGaps';
+import { fillGaps, getGaps, getOptionLabel, parseGaps } from '@/composables/parseGaps';
 import passages from '@/jsons/passages.json';
 import rules from '@/jsons/rules.json';
 import { appVars } from '@/configApp';
@@ -16,6 +16,14 @@ describe( 'разметка пропусков', () => {
 
     expect( getGaps( parts ).map( ( gap ) => gap.options )).toEqual([ [ ' ', '' ], [ '', ' ' ] ]);
     expect( fillGaps( parts, [ ' ', '' ] )).toBe( 'не знал, тоже' );
+  });
+
+  test( 'подписи вариантов: слитно и раздельно, знак препинания и «ничего»', () => {
+    expect( getOptionLabel( ' ', [ ' ', '' ] )).toBe( 'раздельно' );
+    expect( getOptionLabel( '', [ ' ', '' ] )).toBe( 'слитно' );
+    expect( getOptionLabel( ',', [ ',', '' ] )).toBe( ',' );
+    expect( getOptionLabel( '', [ ',', '' ] )).toBe( 'ничего' );
+    expect( getOptionLabel( '', [ '', 'в', 'ф' ] )).toBe( 'ничего' );
   });
 
   test( 'в абзацах число пропусков совпадает с полем gaps, а правила существуют', () => {

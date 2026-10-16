@@ -67,13 +67,18 @@ const onNext = () => {
 
 <template>
   <ion-page>
-    <AppHeader :page-name="rule ? rule.title : 'Автомат чернил'" />
+    <AppHeader page-name="Автомат чернил" />
 
     <ion-content :fullscreen="true" class="ion-padding">
       <p v-if="isLoaded && !rule">Задание не найдено.</p>
 
       <template v-if="rule">
         <InkLevel :class="styles.machineTaskPage__ink" />
+
+        <section :class="styles.machineTaskPage__rule">
+          <h2 :class="styles.machineTaskPage__title">{{ rule.title }}</h2>
+          <p v-for="( paragraph, index ) in rule.text" :key="index">{{ paragraph }}</p>
+        </section>
 
         <GapText :key="attempt" v-model:drafts="drafts" :text="question" />
 

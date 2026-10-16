@@ -1,0 +1,7 @@
+.archivePage {
+  &__empty {
+    margin: var( --ink-size-gap-xl ) 0 0;
+    text-align: center;
+    color: var( --ink-color-font-low );
+  }
+}

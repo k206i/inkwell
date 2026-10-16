@@ -6,8 +6,12 @@
   padding-top: var( --ink-size-gap-xl );
 
   &__mascot {
-    width: 60%;
-    max-width: 260px;
+    width: 50%;
+    max-width: 200px;
+  }
+
+  &__links {
+    align-self: stretch;
   }
 
   &__version {

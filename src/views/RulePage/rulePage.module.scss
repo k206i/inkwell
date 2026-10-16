@@ -1,0 +1,46 @@
+.rulePage {
+  line-height: 1.5;
+
+  &__section {
+    margin-top: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var( --ink-color-font-low );
+  }
+
+  &__heading {
+    margin: var( --ink-size-gap-l ) 0 var( --ink-size-gap-s );
+    font-size: 17px;
+  }
+
+  &__example {
+    margin: 0 0 var( --ink-size-gap );
+  }
+
+  &__quote {
+    margin: 0;
+    padding: var( --ink-size-gap );
+    font-family: var( --ink-font-paper );
+    font-size: 18px;
+    color: var( --ink-color-paper-font );
+    background: var( --ink-color-paper );
+    border-radius: var( --ink-size-border-radius-s );
+  }
+
+  &__mark {
+    color: var( --ink-color-ink );
+    background: none;
+  }
+
+  &__source {
+    margin-top: var( --ink-size-gap-xs );
+    font-size: 14px;
+    text-align: right;
+    color: var( --ink-color-font-low );
+  }
+
+  &__practice {
+    display: inline-block;
+    margin-top: var( --ink-size-gap-l );
+  }
+}

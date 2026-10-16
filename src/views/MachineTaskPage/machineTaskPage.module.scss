@@ -1,0 +1,18 @@
+.machineTaskPage {
+  &__ink {
+    margin-bottom: var( --ink-size-gap );
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var( --ink-size-gap );
+    margin-top: var( --ink-size-gap-l );
+  }
+
+  &__result {
+    margin: 0;
+    text-align: center;
+  }
+}

@@ -1,0 +1,27 @@
+.restorePage {
+  &__ink {
+    margin-bottom: var( --ink-size-gap );
+  }
+
+  &__source {
+    margin: var( --ink-size-gap-s ) 0 0;
+    font-size: 14px;
+    text-align: right;
+    color: var( --ink-color-font-low );
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var( --ink-size-gap-s );
+    margin-top: var( --ink-size-gap-l );
+  }
+
+  &__notice {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    color: var( --ink-color-font-low );
+  }
+}

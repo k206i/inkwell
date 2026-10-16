@@ -1,0 +1,43 @@
+// Список карточек-ссылок: хаб, каталог, архив, автомат, правила
+.listCard {
+  display: flex;
+  flex-direction: column;
+  gap: var( --ink-size-gap-s );
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__heading {
+    margin: var( --ink-size-gap-l ) 0 var( --ink-size-gap-s );
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: var( --ink-color-font-low );
+  }
+
+  &__item {
+    display: block;
+    padding: var( --ink-size-gap );
+    color: var( --ink-color-font );
+    text-decoration: none;
+    background: var( --ink-color-theme-dark );
+    border: 1px solid var( --ink-color-border );
+    border-radius: var( --ink-size-border-radius-s );
+  }
+
+  &__item_locked {
+    opacity: .5;
+  }
+
+  &__title {
+    display: block;
+    font-size: 17px;
+  }
+
+  &__meta {
+    display: block;
+    margin-top: 2px;
+    font-size: 14px;
+    color: var( --ink-color-font-low );
+  }
+}

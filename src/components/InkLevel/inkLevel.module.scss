@@ -1,0 +1,21 @@
+.inkLevel {
+  display: flex;
+  justify-content: center;
+  gap: var( --ink-size-gap-l );
+  font-size: 16px;
+  color: var( --ink-color-font );
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var( --ink-size-gap-xs );
+  }
+
+  &__ink {
+    color: var( --ink-color-theme );
+  }
+
+  &__token {
+    color: var( --ink-color-success );
+  }
+}

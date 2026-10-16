@@ -1,0 +1,58 @@
+export type TGap = {
+  index: number, // порядковый номер пропуска в тексте
+  answer: string, // правильный вариант: '' — ничего, ' ' — пробел
+  options: string[], // варианты в порядке разметки, первый правильный
+  ruleId: string, // id правила из rules.json, в вопросах правила пусто
+};
+
+export type TTextPart =
+  | { kind: 'text', value: string }
+  | { kind: 'gap', gap: TGap };
+
+const GAP_PATTERN: RegExp = /\[([^\]]*)\]/g;
+
+// Разметка пропуска: г[о|а#vowel]стиную, где _ — пробел, пустой вариант — «ничего»
+export const parseGaps = ( source: string ): TTextPart[] => {
+  const parts: TTextPart[] = [];
+  let last: number = 0;
+  let index: number = 0;
+
+  for ( const match of source.matchAll( GAP_PATTERN )) {
+    const start: number = match.index ?? 0;
+
+    if ( start > last ) {
+      parts.push({ kind: 'text', value: source.slice( last, start ) });
+    }
+
+    const [ body, ruleId = '' ] = match[1].split( '#' );
+    const options: string[] = body.split( '|' ).map( ( option: string ) => option.replace( /_/g, ' ' ));
+
+    parts.push({ kind: 'gap', gap: { index, answer: options[0], options, ruleId } });
+    index += 1;
+    last = start + match[0].length;
+  }
+
+  if ( last < source.length ) {
+    parts.push({ kind: 'text', value: source.slice( last ) });
+  }
+
+  return parts;
+};
+
+export const getGaps = ( parts: TTextPart[] ): TGap[] => parts.flatMap( ( part: TTextPart ) => part.kind === 'gap' ? [ part.gap ] : [] );
+
+export const fillGaps = ( parts: TTextPart[], values: string[] ): string => parts
+  .map( ( part: TTextPart ) => part.kind === 'gap' ? values[part.gap.index] : part.value )
+  .join( '' );
+
+export const getOptionLabel = ( option: string ): string => {
+  if ( option === '' ) {
+    return 'ничего';
+  }
+
+  if ( option === ' ' ) {
+    return 'пробел';
+  }
+
+  return option;
+};

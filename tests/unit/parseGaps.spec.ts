@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { fillGaps, getGaps, parseGaps } from '@/composables/parseGaps';
 import passages from '@/jsons/passages.json';
 import rules from '@/jsons/rules.json';
+import { appVars } from '@/configApp';
 
 describe( 'разметка пропусков', () => {
   test( 'буква с правилом: первый вариант правильный', () => {
@@ -28,6 +29,13 @@ describe( 'разметка пропусков', () => {
       for ( const gap of gaps ) {
         expect( ruleIds.has( gap.ruleId ), `${ passage.id }: ${ gap.ruleId }` ).toBe( true );
       }
+    }
+  });
+
+  test( 'в абзаце не меньше пропусков, чем капель за ответ у автомата, и не больше ёмкости чернильницы', () => {
+    for ( const passage of passages ) {
+      expect( passage.gaps, passage.id ).toBeGreaterThanOrEqual( appVars.machine.dropsPerAnswer );
+      expect( passage.gaps, passage.id ).toBeLessThanOrEqual( appVars.inkwell.capacity );
     }
   });
 

@@ -34,6 +34,19 @@ export const addInk = ( drops: number ): void => {
   appStore.ink = Math.min( appStore.ink + drops, appVars.inkwell.capacity );
 };
 
+export const spendInk = ( drops: number ): void => {
+  appStore.ink = Math.max( 0, appStore.ink - drops );
+};
+
+// Жетон знания выдаётся за каждое завершение абзаца, в том числе повторное
+export const archivePassage = ( id: string ): void => {
+  if ( !appStore.restoredPassages.includes( id )) {
+    appStore.restoredPassages.push( id );
+  }
+
+  appStore.tokens += 1;
+};
+
 export const spendToken = (): void => {
   if ( appStore.tokens < 1 ) {
     return;

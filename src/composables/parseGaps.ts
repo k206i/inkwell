@@ -9,6 +9,9 @@ export type TTextPart =
   | { kind: 'text', value: string }
   | { kind: 'gap', gap: TGap };
 
+// Итог печати пропуска: null — ещё не напечатан или переписан заново
+export type TGapResult = 'right' | 'wrong' | null;
+
 const GAP_PATTERN: RegExp = /\[([^\]]*)\]/g;
 
 // Разметка пропуска: г[о|а#vowel]стиную, где _ — пробел, пустой вариант — «ничего», первый вариант - правильный ответ

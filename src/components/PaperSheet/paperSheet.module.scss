@@ -1,0 +1,120 @@
+.paperSheet {
+  position: relative;
+  background: var( --ink-color-paper );
+  border-radius: var( --ink-size-border-radius-s );
+
+  &__text {
+    margin: 0;
+    padding: var( --ink-size-gap ) calc( var( --ink-size-gap ) + 8px );
+    font-family: var( --ink-font-paper );
+    font-size: 19px;
+    line-height: 2;
+    color: var( --ink-color-paper-font );
+  }
+
+  &__gap {
+    display: inline-block;
+    min-width: .9em;
+    height: 1.3em;
+    margin: 0 1px;
+    padding: 0 2px;
+    font: inherit;
+    line-height: 1.3em;
+    vertical-align: -.25em;
+    color: var( --ink-color-draft );
+    background: none;
+    border: none;
+    border-radius: 6px;
+  }
+
+  // Стёртое место: выцветшее пятно на бумаге
+  &__gap_empty {
+    background: radial-gradient( ellipse at center, var( --ink-color-paper-gap ) 30%, transparent 75% );
+  }
+
+  // Черновик: полупрозрачная проекция костюма
+  &__gap_letter {
+    opacity: .55;
+  }
+
+  &__gap_space {
+    min-width: .6em;
+    border-bottom: 2px solid currentColor;
+    border-radius: 0;
+    opacity: .55;
+  }
+
+  &__gap_nothing {
+    min-width: 4px;
+    width: 4px;
+    padding: 0;
+    background: currentColor;
+    opacity: .4;
+  }
+
+  // Итоги печати идут после черновиков, чтобы перекрыть прозрачность
+  &__gap_right {
+    opacity: 1;
+  }
+
+  &__gap_wrong {
+    color: var( --ink-color-error );
+    text-decoration: underline wavy var( --ink-color-error );
+    opacity: 1;
+  }
+
+  &__gap_active {
+    outline: 2px solid var( --ink-color-theme );
+    outline-offset: 1px;
+  }
+
+  &__carriage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  &__rail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background: var( --ink-color-theme-dark );
+    opacity: .6;
+  }
+
+  &__rail_left {
+    left: 0;
+    border-radius: var( --ink-size-border-radius-s ) 0 0 var( --ink-size-border-radius-s );
+  }
+
+  &__rail_right {
+    right: 0;
+    border-radius: 0 var( --ink-size-border-radius-s ) var( --ink-size-border-radius-s ) 0;
+  }
+
+  &__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var( --ink-color-theme-dark );
+    transform: translateY( -50% );
+    transition: top var( --step ) ease-in-out;
+  }
+
+  &__head {
+    position: absolute;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    background: var( --ink-color-ink );
+    border: 2px solid var( --ink-color-theme-dark );
+    border-radius: 50%;
+    transform: translate( -50%, -50% );
+    transition: left var( --step ) ease-in-out;
+  }
+}

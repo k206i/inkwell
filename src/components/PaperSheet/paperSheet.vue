@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import styles from './paperSheet.module.scss';
-import type { TGap, TGapResult, TTextPart } from '@/composables/parseGaps';
+import { groupWords, type TGap, type TGapResult, type TTextPart, type TWordChunk } from '@/composables/parseGaps';
 
 const props = defineProps<{
   parts: TTextPart[],
@@ -25,6 +25,7 @@ const headX = ref< number >( 0 );
 const headY = ref< number >( 0 );
 const isParked = ref< boolean >( true );
 
+const words = computed( (): TWordChunk[] => groupWords( props.parts ));
 const gapCount = computed( (): number => props.parts.filter( ( part: TTextPart ) => part.kind === 'gap' ).length );
 const step = computed( (): number => Math.min( STEP_MAX, Math.max( STEP_MIN, STEP_TOTAL / Math.max( 1, gapCount.value ))));
 
@@ -90,16 +91,21 @@ const gapClass = ( gap: TGap ): string[] => {
 <template>
   <div :class="styles.paperSheet" :style="{ '--step': `${ step }ms` }">
     <p :class="styles.paperSheet__text">
-      <template v-for="( part, index ) in props.parts" :key="index">
-        <span v-if="part.kind === 'text'">{{ part.value }}</span>
-        <button
-            v-else
-            :ref="( element ) => setGapElement( part.gap.index, element )"
-            :class="[ styles.paperSheet__gap, ...gapClass( part.gap ) ]"
-            :disabled="props.results[part.gap.index] === 'right'"
-            type="button"
-            @click="emit( 'select', part.gap.index )"
-        >{{ props.drafts[part.gap.index] ?? '' }}</button>
+      <template v-for="( chunk, index ) in words" :key="index">
+        <template v-if="chunk.kind === 'space'">{{ chunk.value }}</template>
+        <span v-else :class="styles.paperSheet__word">
+          <template v-for="( part, partIndex ) in chunk.parts" :key="partIndex">
+            <template v-if="part.kind === 'text'">{{ part.value }}</template>
+            <button
+                v-else
+                :ref="( element ) => setGapElement( part.gap.index, element )"
+                :class="[ styles.paperSheet__gap, ...gapClass( part.gap ) ]"
+                :disabled="props.results[part.gap.index] === 'right'"
+                type="button"
+                @click="emit( 'select', part.gap.index )"
+            >{{ props.drafts[part.gap.index] ?? '' }}</button>
+          </template>
+        </span>
       </template>
     </p>
 

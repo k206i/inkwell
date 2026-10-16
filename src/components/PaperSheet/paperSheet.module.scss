@@ -12,6 +12,10 @@
     color: var( --ink-color-paper-font );
   }
 
+  &__word {
+    white-space: nowrap;
+  }
+
   &__gap {
     display: inline-block;
     min-width: .9em;

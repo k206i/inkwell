@@ -44,6 +44,50 @@ export const parseGaps = ( source: string ): TTextPart[] => {
 
 export const getGaps = ( parts: TTextPart[] ): TGap[] => parts.flatMap( ( part: TTextPart ) => part.kind === 'gap' ? [ part.gap ] : [] );
 
+export type TWordChunk =
+  | { kind: 'space', value: string }
+  | { kind: 'word', parts: TTextPart[] };
+
+// Склеивает куски текста и пропуски без пробела между ними в одно слово, чтобы строка не рвалась посреди слова
+export const groupWords = ( parts: TTextPart[] ): TWordChunk[] => {
+  const chunks: TWordChunk[] = [];
+  let word: TTextPart[] = [];
+
+  const flush = () => {
+    if ( word.length ) {
+      chunks.push({ kind: 'word', parts: word });
+      word = [];
+    }
+  };
+
+  for ( const part of parts ) {
+    if ( part.kind === 'gap' ) {
+      word.push( part );
+
+      continue;
+    }
+
+    for ( const piece of part.value.split( /(\s+)/ )) {
+      if ( !piece ) {
+        continue;
+      }
+
+      if ( /^\s+$/.test( piece )) {
+        flush();
+        chunks.push({ kind: 'space', value: piece });
+
+        continue;
+      }
+
+      word.push({ kind: 'text', value: piece });
+    }
+  }
+
+  flush();
+
+  return chunks;
+};
+
 export const fillGaps = ( parts: TTextPart[], values: string[] ): string => parts
   .map( ( part: TTextPart ) => part.kind === 'gap' ? values[part.gap.index] : part.value )
   .join( '' );

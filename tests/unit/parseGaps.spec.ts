@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { fillGaps, getGaps, getOptionLabel, parseGaps } from '@/composables/parseGaps';
+import { fillGaps, getGaps, getOptionLabel, groupWords, parseGaps, type TWordChunk } from '@/composables/parseGaps';
 import passages from '@/jsons/passages.json';
 import rules from '@/jsons/rules.json';
 import { appVars } from '@/configApp';
@@ -16,6 +16,15 @@ describe( 'разметка пропусков', () => {
 
     expect( getGaps( parts ).map( ( gap ) => gap.options )).toEqual([ [ ' ', '' ], [ '', ' ' ] ]);
     expect( fillGaps( parts, [ ' ', '' ] )).toBe( 'не знал, тоже' );
+  });
+
+  test( 'слово с пропусками не разрывается, пробелы остаются между словами', () => {
+    const chunks: TWordChunk[] = groupWords( parseGaps( 'с освежё[нн|н]ым л[и|е]цом, стенами[,|] коврами' ));
+    const view: string[] = chunks.map( ( chunk: TWordChunk ) => chunk.kind === 'space'
+      ? '·'
+      : chunk.parts.map( ( part ) => part.kind === 'gap' ? '?' : part.value ).join( '' ));
+
+    expect( view ).toEqual([ 'с', '·', 'освежё?ым', '·', 'л?цом,', '·', 'стенами?', '·', 'коврами' ]);
   });
 
   test( 'подписи вариантов: слитно и раздельно, знак препинания и «ничего»', () => {

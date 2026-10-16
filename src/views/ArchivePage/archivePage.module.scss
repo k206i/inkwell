@@ -4,4 +4,28 @@
     text-align: center;
     color: var( --ink-color-font-low );
   }
+
+  &__item {
+    width: 100%;
+    font: inherit;
+    text-align: left;
+  }
+
+  &__paper {
+    margin: 0;
+    padding: var( --ink-size-gap );
+    font-family: var( --ink-font-paper );
+    font-size: 19px;
+    line-height: 1.8;
+    color: var( --ink-color-paper-font );
+    background: var( --ink-color-paper );
+    border-radius: var( --ink-size-border-radius-s );
+  }
+
+  &__source {
+    margin: var( --ink-size-gap-s ) 0 0;
+    font-size: 14px;
+    text-align: right;
+    color: var( --ink-color-font-low );
+  }
 }

@@ -1,19 +1,31 @@
 <script setup lang="ts">
-import { IonContent, IonPage } from '@ionic/vue';
+import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 import { computed, ref } from 'vue';
 import styles from './archivePage.module.scss';
 import listCard from '@/assets/styles/listCard.module.scss';
 import AppHeader from '@/components/AppHeader/appHeader.vue';
 import { getPassages, type TPassage } from '@/api/getPassages';
+import { fillGaps, getGaps, parseGaps, type TGap, type TTextPart } from '@/composables/parseGaps';
 import { appStore } from '@/store/appStore';
 
 const passages = ref< TPassage[] >( [] );
+const opened = ref< TPassage | null >( null );
 
 getPassages().then( ( result: TPassage[] ) => {
   passages.value = result;
 });
 
 const restored = computed( (): TPassage[] => passages.value.filter( ( passage: TPassage ) => appStore.restoredPassages.includes( passage.id )));
+
+const openedText = computed( (): string => {
+  if ( !opened.value ) {
+    return '';
+  }
+
+  const parts: TTextPart[] = parseGaps( opened.value.text );
+
+  return fillGaps( parts, getGaps( parts ).map( ( gap: TGap ) => gap.answer ));
+});
 </script>
 
 <template>
@@ -22,9 +34,15 @@ const restored = computed( (): TPassage[] => passages.value.filter( ( passage: T
 
     <ion-content :fullscreen="true" class="ion-padding">
       <ul v-if="restored.length" :class="listCard.listCard">
-        <li v-for="passage in restored" :key="passage.id" :class="listCard.listCard__item">
-          <span :class="listCard.listCard__title">«{{ passage.work }}»</span>
-          <span :class="listCard.listCard__meta">{{ passage.author }}</span>
+        <li v-for="passage in restored" :key="passage.id">
+          <button
+              :class="[ listCard.listCard__item, styles.archivePage__item ]"
+              type="button"
+              @click="opened = passage"
+          >
+            <span :class="listCard.listCard__title">«{{ passage.work }}»</span>
+            <span :class="listCard.listCard__meta">{{ passage.author }}</span>
+          </button>
         </li>
       </ul>
 
@@ -32,6 +50,25 @@ const restored = computed( (): TPassage[] => passages.value.filter( ( passage: T
         Здесь появятся восстановленные абзацы.
         <router-link to="/catalog">К реставрации</router-link>
       </p>
+
+      <ion-modal :is-open="opened !== null" @did-dismiss="opened = null">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>{{ opened ? `«${ opened.work }»` : '' }}</ion-title>
+
+            <ion-buttons slot="end">
+              <ion-button @click="opened = null">Закрыть</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="ion-padding">
+          <template v-if="opened">
+            <p :class="styles.archivePage__paper">{{ openedText }}</p>
+            <p :class="styles.archivePage__source">{{ opened.author }}, «{{ opened.work }}»</p>
+          </template>
+        </ion-content>
+      </ion-modal>
     </ion-content>
   </ion-page>
 </template>

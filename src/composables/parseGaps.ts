@@ -11,7 +11,7 @@ export type TTextPart =
 
 const GAP_PATTERN: RegExp = /\[([^\]]*)\]/g;
 
-// Разметка пропуска: г[о|а#vowel]стиную, где _ — пробел, пустой вариант — «ничего»
+// Разметка пропуска: г[о|а#vowel]стиную, где _ — пробел, пустой вариант — «ничего», первый вариант - правильный ответ
 export const parseGaps = ( source: string ): TTextPart[] => {
   const parts: TTextPart[] = [];
   let last: number = 0;

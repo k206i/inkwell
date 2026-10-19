@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IonContent, IonPage } from '@ionic/vue';
+import { IonContent, IonPage, onIonViewWillEnter } from '@ionic/vue';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import styles from './restorePage.module.scss';
@@ -23,6 +23,7 @@ const drafts = ref< ( string | null )[] >( [] );
 const results = ref< TGapResult[] >( [] );
 const isPrinting = ref< boolean >( false );
 const status = ref< TStatus >( 'idle' );
+const isTokenEarned = ref< boolean >( false );
 const attempt = ref< number >( 0 ); // ключ GapText: новый лист — курсор и перемешивание заново
 
 const gaps = computed( (): TGap[] => passage.value ? getGaps( parseGaps( passage.value.text )) : [] );
@@ -38,6 +39,13 @@ getPassageById( String( route.params.id )).then( ( result: TPassage | null ) => 
   passage.value = result;
   isLoaded.value = true;
   resetSheet();
+});
+
+// Ionic держит страницу в стеке, поэтому при повторном входе после архива лист очищаем сами
+onIonViewWillEnter( () => {
+  if ( status.value === 'archived' ) {
+    resetSheet();
+  }
 });
 
 const hasPrinted = computed( (): boolean => results.value.some( ( result: TGapResult ) => result !== null ));
@@ -88,10 +96,7 @@ const onPrint = async () => {
     return;
   }
 
-  if ( passage.value ) {
-    archivePassage( passage.value.id );
-  }
-
+  isTokenEarned.value = passage.value ? archivePassage( passage.value.id ) : false;
   status.value = 'archived';
 };
 </script>
@@ -126,7 +131,8 @@ const onPrint = async () => {
 
           <div :class="styles.restorePage__actions">
             <template v-if="status === 'archived'">
-              <p :class="styles.restorePage__notice">Абзац отправлен в архив. Жетон знания +1.</p>
+              <p v-if="isTokenEarned" :class="styles.restorePage__notice">Абзац отправлен в архив. Жетон знания +1.</p>
+              <p v-else :class="styles.restorePage__notice">Абзац снова восстановлен. Жетон за него уже получен.</p>
               <router-link to="/catalog">К каталогу</router-link>
             </template>
 

@@ -38,13 +38,16 @@ export const spendInk = ( drops: number ): void => {
   appStore.ink = Math.max( 0, appStore.ink - drops );
 };
 
-// Жетон знания выдаётся за каждое завершение абзаца, в том числе повторное
-export const archivePassage = ( id: string ): void => {
-  if ( !appStore.restoredPassages.includes( id )) {
-    appStore.restoredPassages.push( id );
+// Жетон знания только за первое восстановление абзаца. Возвращает, выдан ли жетон
+export const archivePassage = ( id: string ): boolean => {
+  if ( appStore.restoredPassages.includes( id )) {
+    return false;
   }
 
+  appStore.restoredPassages.push( id );
   appStore.tokens += 1;
+
+  return true;
 };
 
 export const spendToken = (): void => {

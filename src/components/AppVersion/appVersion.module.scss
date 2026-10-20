@@ -1,0 +1,38 @@
+.appVersion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var( --ink-size-gap-s );
+
+  &__version {
+    margin: 0;
+    font-size: 14px;
+    color: var( --ink-color-font-low );
+  }
+
+  &__debug {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var( --ink-size-gap-xs );
+    padding: var( --ink-size-gap-s ) var( --ink-size-gap );
+    border: 1px dashed var( --ink-color-border );
+    border-radius: var( --ink-size-border-radius-s );
+  }
+
+  &__heading {
+    margin: 0;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var( --ink-color-font-low );
+  }
+
+  &__button {
+    padding: var( --ink-size-gap-xs ) var( --ink-size-gap-s );
+    font: inherit;
+    font-size: 14px;
+    color: var( --ink-color-theme );
+    background: none;
+    border: none;
+  }
+}

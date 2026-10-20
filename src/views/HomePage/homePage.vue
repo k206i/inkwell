@@ -7,6 +7,7 @@ import AppHeader from '@/components/AppHeader/appHeader.vue';
 import AppFooter from '@/components/AppFooter/appFooter.vue';
 import SaelianMascot from '@/components/SaelianMascot/saelianMascot.vue';
 import InkLevel from '@/components/InkLevel/inkLevel.vue';
+import AppVersion from '@/components/AppVersion/appVersion.vue';
 import { getPassages, type TPassage } from '@/api/getPassages';
 import { getRules, type TRule } from '@/api/getRules';
 import { getWeakRules } from '@/composables/getWeakRules';
@@ -17,8 +18,6 @@ type THubLink = {
   title: string,
   meta: string,
 };
-
-const appVersion: string = __APP_VERSION__;
 
 const links: THubLink[] = [
   { to: '/catalog', title: 'Реставрация', meta: 'Выбрать абзац для восстановления' },
@@ -90,7 +89,7 @@ const weakestRule = computed( (): TRule | null => {
           </router-link>
         </nav>
 
-        <p :class="styles.homePage__version">v{{ appVersion }}</p>
+        <AppVersion />
 
         <router-link to="/visor" :class="styles.homePage__visorLink">
           Эмоции визора

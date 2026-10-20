@@ -18,6 +18,10 @@
     margin-top: var( --ink-size-gap-l );
   }
 
+  &__replay {
+    margin-bottom: var( --ink-size-gap );
+  }
+
   &__notice {
     margin: 0;
     font-size: 14px;

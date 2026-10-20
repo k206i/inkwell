@@ -15,7 +15,10 @@ getPassages().then( ( result: TPassage[] ) => {
   passages.value = result;
 });
 
-const getMissingInk = ( passage: TPassage ): number => Math.max( 0, passage.gaps - appStore.ink );
+const isRestored = ( passage: TPassage ): boolean => appStore.restoredPassages.includes( passage.id );
+
+// Повтор абзаца из архива бесплатный, поэтому чернилами он не закрывается
+const getMissingInk = ( passage: TPassage ): number => isRestored( passage ) ? 0 : Math.max( 0, passage.gaps - appStore.ink );
 
 const getMeta = ( passage: TPassage ): string => {
   const missing: number = getMissingInk( passage );
@@ -24,9 +27,11 @@ const getMeta = ( passage: TPassage ): string => {
     return `Не хватает ${ missing } ${ declineUnit( missing, 'drop' ) }`;
   }
 
-  const restored: string = appStore.restoredPassages.includes( passage.id ) ? ' · в архиве' : '';
+  if ( isRestored( passage )) {
+    return `${ passage.author } · в архиве · повтор бесплатно`;
+  }
 
-  return `${ passage.author } · ${ passage.gaps } ${ declineUnit( passage.gaps, 'drop' ) }${ restored }`;
+  return `${ passage.author } · ${ passage.gaps } ${ declineUnit( passage.gaps, 'drop' ) }`;
 };
 </script>
 

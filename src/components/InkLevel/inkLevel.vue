@@ -8,10 +8,14 @@ import { appVars } from '@/configApp';
 
 <template>
   <div :class="styles.inkLevel">
-    <span :class="styles.inkLevel__item" aria-label="Чернила">
+    <router-link
+        :class="[ styles.inkLevel__item, styles.inkLevel__link ]"
+        aria-label="Чернила, к автомату"
+        to="/machine"
+    >
       <ion-icon :class="styles.inkLevel__ink" :icon="water" />
       {{ appStore.ink }} / {{ appVars.inkwell.capacity }}
-    </span>
+    </router-link>
 
     <span :class="styles.inkLevel__item" aria-label="Жетоны знания">
       <ion-icon :class="styles.inkLevel__token" :icon="ticket" />

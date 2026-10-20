@@ -11,6 +11,11 @@
     gap: var( --ink-size-gap-xs );
   }
 
+  &__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
   &__ink {
     color: var( --ink-color-theme );
   }

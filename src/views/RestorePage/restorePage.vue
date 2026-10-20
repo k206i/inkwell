@@ -54,8 +54,17 @@ const hasPrinted = computed( (): boolean => results.value.some( ( result: TGapRe
 const printCost = computed( (): number => results.value.filter( ( result: TGapResult ) => result === null ).length );
 const errorCount = computed( (): number => results.value.filter( ( result: TGapResult ) => result === 'wrong' ).length );
 
+// Повтор абзаца из архива — чистая практика без жетона, поэтому и чернила на него не тратятся
+const isReplay = computed( (): boolean => passage.value ? appStore.restoredPassages.includes( passage.value.id ) : false );
+
 // На входе чернил должно хватать на весь абзац; после первой печати это уже не проверяется
-const missingInk = computed( (): number => passage.value && !hasPrinted.value ? Math.max( 0, passage.value.gaps - appStore.ink ) : 0 );
+const missingInk = computed( (): number => {
+  if ( !passage.value || hasPrinted.value || isReplay.value ) {
+    return 0;
+  }
+
+  return Math.max( 0, passage.value.gaps - appStore.ink );
+});
 
 const isReady = computed( (): boolean => {
   return !isPrinting.value
@@ -66,7 +75,7 @@ const isReady = computed( (): boolean => {
 });
 
 const onPrint = async () => {
-  if ( appStore.ink < printCost.value ) {
+  if ( !isReplay.value && appStore.ink < printCost.value ) {
     status.value = 'noInk';
 
     return;
@@ -85,7 +94,10 @@ const onPrint = async () => {
 
     const result: TGapResult = drafts.value[gap.index] === gap.answer ? 'right' : 'wrong';
 
-    spendInk( 1 );
+    if ( !isReplay.value ) {
+      spendInk( 1 );
+    }
+
     results.value = results.value.map( ( item: TGapResult, index: number ) => index === gap.index ? result : item );
 
     if ( !printedGaps.has( gap.index )) {
@@ -117,6 +129,10 @@ const onPrint = async () => {
 
       <template v-if="passage">
         <InkLevel :class="styles.restorePage__ink" />
+
+        <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
+          Повтор: чернила не тратятся.
+        </p>
 
         <p v-if="missingInk > 0" :class="styles.restorePage__notice">
           Для этого абзаца не хватает {{ missingInk }} {{ declineUnit( missingInk, 'drop' ) }}.

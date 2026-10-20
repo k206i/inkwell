@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import styles from './appVersion.module.scss';
 import { appStore } from '@/store/appStore';
+import { appVars } from '@/configApp';
 
 const appVersion: string = __APP_VERSION__;
 
+// Возвращает игрока к состоянию первой установки: пустой архив, без жетонов, полная чернильница
 const onResetPassages = () => {
   appStore.restoredPassages = [];
   appStore.tokens = 0;
+  appStore.ink = appVars.inkwell.capacity;
 };
 
 const onResetStatistics = () => {
@@ -23,7 +26,7 @@ const onResetStatistics = () => {
       <p :class="styles.appVersion__heading">Отладка</p>
 
       <button :class="styles.appVersion__button" type="button" @click="onResetPassages">
-        Сбросить восстановленные абзацы ({{ appStore.restoredPassages.length }})
+        Сбросить абзацы, жетоны и чернила ({{ appStore.restoredPassages.length }})
       </button>
 
       <button :class="styles.appVersion__button" type="button" @click="onResetStatistics">

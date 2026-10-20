@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { IonContent, IonPage } from '@ionic/vue';
+import { computed, ref } from 'vue';
 import styles from './homePage.module.scss';
 import listCard from '@/assets/styles/listCard.module.scss';
 import AppHeader from '@/components/AppHeader/appHeader.vue';
 import AppFooter from '@/components/AppFooter/appFooter.vue';
 import SaelianMascot from '@/components/SaelianMascot/saelianMascot.vue';
 import InkLevel from '@/components/InkLevel/inkLevel.vue';
+import { getPassages, type TPassage } from '@/api/getPassages';
+import { getRules, type TRule } from '@/api/getRules';
+import { getWeakRules } from '@/composables/getWeakRules';
+import { appStore } from '@/store/appStore';
 
 type THubLink = {
   to: string,
@@ -22,6 +27,29 @@ const links: THubLink[] = [
   { to: '/achievements', title: 'Достижения', meta: 'Скоро' },
   { to: '/rules', title: 'Правила', meta: 'Справочник архивариуса' },
 ];
+
+const passages = ref< TPassage[] >( [] );
+const rules = ref< TRule[] >( [] );
+
+getPassages().then( ( result: TPassage[] ) => {
+  passages.value = result;
+});
+
+getRules().then( ( result: TRule[] ) => {
+  rules.value = result;
+});
+
+const accuracy = computed( (): number | null => {
+  const total: number = appStore.answers.right + appStore.answers.wrong;
+
+  return total ? Math.round( appStore.answers.right / total * 100 ) : null;
+});
+
+const weakestRule = computed( (): TRule | null => {
+  const [ weakest ] = getWeakRules( appStore.ruleHistory, 1 );
+
+  return weakest ? rules.value.find( ( rule: TRule ) => rule.id === weakest.ruleId ) ?? null : null;
+});
 </script>
 
 <template>
@@ -33,6 +61,22 @@ const links: THubLink[] = [
         <SaelianMascot :class="styles.homePage__mascot" autoplay emotion="smile" />
 
         <InkLevel />
+
+        <section :class="styles.homePage__stats">
+          <p :class="styles.homePage__stat">
+            Восстановлено абзацев: {{ appStore.restoredPassages.length }} из {{ passages.length }}
+          </p>
+
+          <p :class="styles.homePage__stat">
+            Точность: {{ accuracy === null ? 'пока нет ответов' : `${ accuracy }%` }}
+          </p>
+
+          <p :class="styles.homePage__stat">
+            Чаще всего ошибки:
+            <router-link v-if="weakestRule" :to="`/machine/${ weakestRule.id }`">{{ weakestRule.title }}</router-link>
+            <template v-else>пока нет</template>
+          </p>
+        </section>
 
         <nav :class="[ listCard.listCard, styles.homePage__links ]">
           <router-link

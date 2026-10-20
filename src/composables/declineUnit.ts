@@ -1,10 +1,11 @@
-export type TDeclineUnit = 'drop' | 'question' | 'gap';
+export type TDeclineUnit = 'drop' | 'question' | 'gap' | 'error';
 
 // Формы слова: [ 1, 2-4, 5-20 ] — 1 капля, 2 капли, 5 капель
 const FORMS: Record< TDeclineUnit, [ string, string, string ] > = {
   drop: [ 'капля', 'капли', 'капель' ],
   question: [ 'вопрос', 'вопроса', 'вопросов' ],
   gap: [ 'пропуск', 'пропуска', 'пропусков' ],
+  error: [ 'ошибка', 'ошибки', 'ошибок' ],
 };
 
 export const declineUnit = ( count: number, type: TDeclineUnit ): string => {

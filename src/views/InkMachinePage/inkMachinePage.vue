@@ -8,8 +8,15 @@ import AppHeader from '@/components/AppHeader/appHeader.vue';
 import InkLevel from '@/components/InkLevel/inkLevel.vue';
 import { getRules, type TRule } from '@/api/getRules';
 import { declineUnit } from '@/composables/declineUnit';
+import { getWeakRules, type TWeakRule } from '@/composables/getWeakRules';
 import { appStore, spendToken } from '@/store/appStore';
 import { appVars } from '@/configApp';
+
+type TWeakCard = {
+  rule: TRule,
+  errors: number,
+  attempts: number,
+};
 
 const rules = ref< TRule[] >( [] );
 
@@ -19,6 +26,14 @@ getRules().then( ( result: TRule[] ) => {
 
 const isTokenDisabled = computed( (): boolean => appStore.tokens < 1 || appStore.ink >= appVars.inkwell.capacity );
 const drops: number = appVars.machine.dropsPerAnswer;
+const weakDrops: number = appVars.machine.dropsPerWeakAnswer;
+
+const weakCards = computed( (): TWeakCard[] => getWeakRules( appStore.ruleHistory, appVars.adaptive.weakLimit )
+  .flatMap( ( weak: TWeakRule ): TWeakCard[] => {
+    const rule: TRule | undefined = rules.value.find( ( item: TRule ) => item.id === weak.ruleId );
+
+    return rule ? [ { rule, errors: weak.errors, attempts: weak.attempts } ] : [];
+  }));
 </script>
 
 <template>
@@ -39,9 +54,26 @@ const drops: number = appVars.machine.dropsPerAnswer;
         </button>
 
         <p :class="styles.inkMachinePage__note">
-          Жетон наполняет чернильницу доверху. Без жетона: {{ drops }} {{ declineUnit( drops, 'drop' ) }} за верный ответ.
+          Жетон наполняет чернильницу доверху. Без жетона: {{ drops }} {{ declineUnit( drops, 'drop' ) }} за верный ответ,
+          по слабым правилам {{ weakDrops }}.
         </p>
       </div>
+
+      <template v-if="weakCards.length">
+        <h2 :class="listCard.listCard__heading">Повторить</h2>
+
+        <ul :class="listCard.listCard">
+          <li v-for="card in weakCards" :key="card.rule.id">
+            <router-link :class="listCard.listCard__item" :to="`/machine/${ card.rule.id }`">
+              <span :class="listCard.listCard__title">{{ card.rule.title }}</span>
+              <span :class="listCard.listCard__meta">
+                {{ card.errors }} {{ declineUnit( card.errors, 'error' ) }} из последних {{ card.attempts }}
+                · {{ weakDrops }} {{ declineUnit( weakDrops, 'drop' ) }} за ответ
+              </span>
+            </router-link>
+          </li>
+        </ul>
+      </template>
 
       <h2 :class="listCard.listCard__heading">Задания</h2>
 

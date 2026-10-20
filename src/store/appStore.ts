@@ -6,6 +6,8 @@ type TAppStore = {
   ink: number, // капли в чернильнице, не больше appVars.inkwell.capacity
   tokens: number, // жетоны знания
   restoredPassages: string[], // id абзацев, ушедших в архив
+  ruleHistory: Record< string, boolean[] >, // id правила -> последние попытки, true — верно
+  answers: { right: number, wrong: number }, // все ответы для статистики
 }
 
 const STORAGE_KEY: string = 'appStore';
@@ -14,6 +16,8 @@ export const appStore: TAppStore = reactive({
   ink: appVars.inkwell.capacity,
   tokens: 0,
   restoredPassages: [],
+  ruleHistory: {},
+  answers: { right: 0, wrong: 0 },
 });
 
 export const restoreAppStore = async (): Promise< void > => {
@@ -48,6 +52,23 @@ export const archivePassage = ( id: string ): boolean => {
   appStore.tokens += 1;
 
   return true;
+};
+
+// isInHistory: ошибки у автомата бесплатны, поэтому в историю правила они не идут, иначе слабое правило можно было бы заработать нарочно
+export const recordAnswer = ( ruleId: string, isRight: boolean, isInHistory: boolean ): void => {
+  if ( isRight ) {
+    appStore.answers.right += 1;
+  } else {
+    appStore.answers.wrong += 1;
+  }
+
+  if ( !isInHistory || !ruleId ) {
+    return;
+  }
+
+  const history: boolean[] = [ ...( appStore.ruleHistory[ruleId] ?? [] ), isRight ];
+
+  appStore.ruleHistory[ruleId] = history.slice( -appVars.adaptive.window );
 };
 
 export const spendToken = (): void => {

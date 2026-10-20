@@ -49,9 +49,9 @@ describe( 'разметка пропусков', () => {
     }
   });
 
-  test( 'в абзаце не меньше пропусков, чем капель за ответ у автомата, и не больше ёмкости чернильницы', () => {
+  test( 'в абзаце не меньше минимума пропусков и не больше ёмкости чернильницы', () => {
     for ( const passage of passages ) {
-      expect( passage.gaps, passage.id ).toBeGreaterThanOrEqual( appVars.machine.dropsPerAnswer );
+      expect( passage.gaps, passage.id ).toBeGreaterThanOrEqual( appVars.catalog.minGaps );
       expect( passage.gaps, passage.id ).toBeLessThanOrEqual( appVars.inkwell.capacity );
     }
   });

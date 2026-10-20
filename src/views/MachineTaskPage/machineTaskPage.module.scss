@@ -3,6 +3,13 @@
     margin-bottom: var( --ink-size-gap );
   }
 
+  &__reward {
+    margin: 0 0 var( --ink-size-gap );
+    font-size: 14px;
+    text-align: center;
+    color: var( --ink-color-font-low );
+  }
+
   &__rule {
     margin-bottom: var( --ink-size-gap );
     line-height: 1.5;

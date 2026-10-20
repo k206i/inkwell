@@ -11,7 +11,7 @@ import { getPassageById } from '@/api/getPassageById';
 import type { TPassage } from '@/api/getPassages';
 import { getGaps, parseGaps, type TGap, type TGapResult } from '@/composables/parseGaps';
 import { declineUnit } from '@/composables/declineUnit';
-import { appStore, archivePassage, spendInk } from '@/store/appStore';
+import { appStore, archivePassage, recordAnswer, spendInk } from '@/store/appStore';
 
 type TStatus = 'idle' | 'errors' | 'noInk' | 'archived';
 
@@ -25,6 +25,7 @@ const isPrinting = ref< boolean >( false );
 const status = ref< TStatus >( 'idle' );
 const isTokenEarned = ref< boolean >( false );
 const attempt = ref< number >( 0 ); // ключ GapText: новый лист — курсор и перемешивание заново
+const printedGaps: Set< number > = new Set(); // в статистику идёт только первая печать пропуска на листе
 
 const gaps = computed( (): TGap[] => passage.value ? getGaps( parseGaps( passage.value.text )) : [] );
 
@@ -33,6 +34,7 @@ const resetSheet = () => {
   results.value = gaps.value.map( () => null );
   status.value = 'idle';
   attempt.value += 1;
+  printedGaps.clear();
 };
 
 getPassageById( String( route.params.id )).then( ( result: TPassage | null ) => {
@@ -85,6 +87,11 @@ const onPrint = async () => {
 
     spendInk( 1 );
     results.value = results.value.map( ( item: TGapResult, index: number ) => index === gap.index ? result : item );
+
+    if ( !printedGaps.has( gap.index )) {
+      printedGaps.add( gap.index );
+      recordAnswer( gap.ruleId, result === 'right', true );
+    }
   }
 
   await gapText.value?.parkHead();

@@ -12,7 +12,7 @@ import type { TRule } from '@/api/getRules';
 import { fillGaps, getGaps, parseGaps, type TGap, type TTextPart } from '@/composables/parseGaps';
 import { declineUnit } from '@/composables/declineUnit';
 import { shuffle } from '@/composables/shuffle';
-import { addInk, appStore } from '@/store/appStore';
+import { addInk, appStore, recordAnswer } from '@/store/appStore';
 import { appVars } from '@/configApp';
 
 type TResult = 'idle' | 'right' | 'wrong';
@@ -32,6 +32,10 @@ const parts = computed( (): TTextPart[] => parseGaps( question.value ));
 const gaps = computed( (): TGap[] => getGaps( parts.value ));
 const answerText = computed( (): string => fillGaps( parts.value, gaps.value.map( ( gap: TGap ) => gap.answer )));
 const isFilled = computed( (): boolean => drafts.value.length > 0 && drafts.value.every( ( draft: string | null ) => draft !== null ));
+
+// Слабое правило: есть ошибки среди последних попыток в реставрации
+const isWeak = computed( (): boolean => rule.value ? ( appStore.ruleHistory[rule.value.id] ?? [] ).includes( false ) : false );
+const dropsPerAnswer = computed( (): number => isWeak.value ? appVars.machine.dropsPerWeakAnswer : appVars.machine.dropsPerAnswer );
 
 const resetQuestion = () => {
   drafts.value = gaps.value.map( () => null );
@@ -59,8 +63,10 @@ getRuleById( String( route.params.ruleId )).then( ( found: TRule | null ) => {
 
 const onAnswer = () => {
   const isRight: boolean = gaps.value.every( ( gap: TGap ) => drafts.value[gap.index] === gap.answer );
+  const ruleId: string = rule.value?.id ?? '';
 
   if ( !isRight ) {
+    recordAnswer( ruleId, false, false );
     result.value = 'wrong';
 
     return;
@@ -68,7 +74,8 @@ const onAnswer = () => {
 
   const before: number = appStore.ink;
 
-  addInk( appVars.machine.dropsPerAnswer );
+  addInk( dropsPerAnswer.value );
+  recordAnswer( ruleId, true, true );
   earned.value = appStore.ink - before;
   result.value = 'right';
 };
@@ -94,6 +101,10 @@ const onNext = () => {
 
       <template v-if="rule">
         <InkLevel :class="styles.machineTaskPage__ink" />
+
+        <p :class="styles.machineTaskPage__reward">
+          За верный ответ {{ dropsPerAnswer }} {{ declineUnit( dropsPerAnswer, 'drop' ) }}<template v-if="isWeak">: это правило сейчас в числе слабых</template>
+        </p>
 
         <section :class="styles.machineTaskPage__rule">
           <h2 :class="styles.machineTaskPage__title">{{ rule.title }}</h2>

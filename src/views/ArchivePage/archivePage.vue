@@ -40,8 +40,8 @@ const openedText = computed( (): string => {
               type="button"
               @click="opened = passage"
           >
-            <span :class="listCard.listCard__title">«{{ passage.work }}»</span>
-            <span :class="listCard.listCard__meta">{{ passage.author }}</span>
+            <span :class="listCard.listCard__title">{{ passage.title }}</span>
+            <span :class="listCard.listCard__meta">{{ passage.author }}, «{{ passage.work }}»</span>
           </button>
         </li>
       </ul>

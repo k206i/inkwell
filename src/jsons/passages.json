@@ -1,6 +1,7 @@
 [
   {
     "id": "anna-karenina_guests",
+    "title": "Вечер в гостиной",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -10,6 +11,7 @@
   },
   {
     "id": "anna-karenina_dolly",
+    "title": "Долли с запиской",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -19,6 +21,7 @@
   },
   {
     "id": "anna-karenina_stepan",
+    "title": "Ответ жене",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -28,6 +31,7 @@
   },
   {
     "id": "anna-karenina_smile",
+    "title": "Глупая улыбка",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -37,6 +41,7 @@
   },
   {
     "id": "anna-karenina_families",
+    "title": "Начало романа",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -46,6 +51,7 @@
   },
   {
     "id": "anna-karenina_telegram",
+    "title": "Телеграмма",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -55,6 +61,7 @@
   },
   {
     "id": "anna-karenina_levin-spring",
+    "title": "Весна Левина",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -64,6 +71,7 @@
   },
   {
     "id": "anna-karenina_levin-boots",
+    "title": "Сапоги и поддёвка",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -73,6 +81,7 @@
   },
   {
     "id": "anna-karenina_elections",
+    "title": "После выборов",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Анна Каренина",
@@ -82,6 +91,7 @@
   },
   {
     "id": "war-and-peace_prince-vasili",
+    "title": "Князь Василий",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -91,6 +101,7 @@
   },
   {
     "id": "war-and-peace_anna-pavlovna",
+    "title": "Анна Павловна",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -100,6 +111,7 @@
   },
   {
     "id": "war-and-peace_berg",
+    "title": "Хорошее общество",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -109,6 +121,7 @@
   },
   {
     "id": "war-and-peace_berg-proposal",
+    "title": "Сватовство Берга",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -118,6 +131,7 @@
   },
   {
     "id": "war-and-peace_countess-sonya",
+    "title": "Графиня и Соня",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -127,6 +141,7 @@
   },
   {
     "id": "war-and-peace_pierre-big-city",
+    "title": "Пьер в большом городе",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -136,6 +151,7 @@
   },
   {
     "id": "war-and-peace_pavlograd",
+    "title": "Павлоградский полк",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -145,6 +161,7 @@
   },
   {
     "id": "war-and-peace_rostov-house",
+    "title": "Дом Ростовых",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -154,6 +171,7 @@
   },
   {
     "id": "war-and-peace_otradnoe-night",
+    "title": "Ночь в Отрадном",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -163,6 +181,7 @@
   },
   {
     "id": "war-and-peace_berg-evening",
+    "title": "Вечер у Бергов",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -172,6 +191,7 @@
   },
   {
     "id": "war-and-peace_natasha-visit",
+    "title": "Визит к Болконским",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -181,6 +201,7 @@
   },
   {
     "id": "war-and-peace_danilo",
+    "title": "Данило в кабинете",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",
@@ -190,6 +211,7 @@
   },
   {
     "id": "war-and-peace_speransky-laugh",
+    "title": "Смех Сперанского",
     "author": "Л. Н. Толстой",
     "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
     "work": "Война и мир",

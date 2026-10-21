@@ -2,6 +2,7 @@ import passages from '@/jsons/passages.json';
 
 export type TPassage = {
   id: string,
+  title: string, // короткое название по сюжету абзаца, без слов с его пропусками
   author: string,
   authorLink: string,
   work: string,

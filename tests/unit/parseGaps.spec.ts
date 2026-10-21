@@ -49,6 +49,25 @@ describe( 'разметка пропусков', () => {
     }
   });
 
+  // Пропуски запятых и пробелов не подсказывают написание слова, поэтому учитываются только буквенные
+  test( 'у абзаца есть название, и в нём нет слов с буквенными пропусками этого абзаца', () => {
+    const clean = ( word: string ): string => word.toLowerCase().replace( /[^а-яё-]/g, '' );
+    const isLetterGap = ( options: string[] ): boolean => options.some( ( option ) => /[а-яё]/i.test( option ));
+
+    for ( const passage of passages ) {
+      expect( passage.title?.trim(), passage.id ).toBeTruthy();
+
+      const gapWords: Set< string > = new Set( groupWords( parseGaps( passage.text ))
+        .flatMap( ( chunk: TWordChunk ) => chunk.kind === 'word' && chunk.parts.some( ( part ) => part.kind === 'gap' && isLetterGap( part.gap.options ))
+          ? [ clean( chunk.parts.map( ( part ) => part.kind === 'gap' ? part.gap.answer : part.value ).join( '' )) ]
+          : [] ));
+
+      for ( const word of passage.title.split( ' ' )) {
+        expect( gapWords.has( clean( word )), `${ passage.id }: ${ word }` ).toBe( false );
+      }
+    }
+  });
+
   test( 'в абзаце не меньше минимума пропусков и не больше ёмкости чернильницы', () => {
     for ( const passage of passages ) {
       expect( passage.gaps, passage.id ).toBeGreaterThanOrEqual( appVars.catalog.minGaps );

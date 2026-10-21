@@ -32,6 +32,10 @@ const onResetStatistics = () => {
       <button :class="styles.appVersion__button" type="button" @click="onResetStatistics">
         Сбросить статистику
       </button>
+
+      <router-link to="/visor" :class="styles.homePage__visorLink">
+        Эмоции визора
+      </router-link>
     </div>
   </div>
 </template>

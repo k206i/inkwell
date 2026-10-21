@@ -90,10 +90,6 @@ const weakestRule = computed( (): TRule | null => {
         </nav>
 
         <AppVersion />
-
-        <router-link to="/visor" :class="styles.homePage__visorLink">
-          Эмоции визора
-        </router-link>
       </div>
     </ion-content>
 

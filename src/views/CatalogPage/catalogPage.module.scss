@@ -2,4 +2,37 @@
   &__ink {
     margin-bottom: var( --ink-size-gap );
   }
+
+  &__header {
+    --background: transparent;
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    --color: var( --ink-color-font );
+  }
+
+  &__author {
+    display: block;
+    font-size: 18px;
+  }
+
+  &__work {
+    display: block;
+    font-size: 17px;
+  }
+
+  &__progress {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var( --ink-color-font-low );
+  }
+
+  // Произведения и абзацы сдвинуты вправо, чтобы уровни читались без рамок
+  &__works {
+    padding-left: var( --ink-size-gap );
+  }
+
+  &__passages {
+    padding: 0 0 var( --ink-size-gap ) var( --ink-size-gap );
+  }
 }

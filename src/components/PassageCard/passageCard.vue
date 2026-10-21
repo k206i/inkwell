@@ -15,7 +15,17 @@ const props = defineProps<{
   passage: TPassage,
   state: TPassageCardState,
   missingInk: number,
+  rules: string[], // короткие названия правил абзаца, самые частые первыми
 }>();
+
+const RULES_SHOWN: number = 3;
+
+const rulesLabel = computed( (): string => {
+  const rest: number = props.rules.length - RULES_SHOWN;
+  const shown: string = props.rules.slice( 0, RULES_SHOWN ).join( '; ' );
+
+  return rest > 0 ? `${ shown } <span>+${ rest }</span>` : shown;
+});
 
 const maxDifficulty: number = appVars.catalog.maxDifficulty;
 const pips: number[] = Array.from( { length: maxDifficulty }, ( _item: unknown, index: number ) => index + 1 );
@@ -28,25 +38,36 @@ const difficulty = computed( (): number => Math.min( maxDifficulty, Math.ceil( p
       :class="[ styles.passageCard, props.state === 'locked' && styles.passageCard_locked ]"
       :to="`/restore/${ props.passage.id }`"
   >
-    <span :class="styles.passageCard__title">{{ props.passage.title }}</span>
+    <span :class="styles.passageCard__title">
+      {{ props.passage.title }}
+    </span>
 
-    <span v-if="props.state === 'archived'" :class="styles.passageCard__stamp">В архиве</span>
+    <span v-if="props.state === 'archived'" :class="styles.passageCard__stamp">
+      В архиве
+    </span>
 
     <span :class="styles.passageCard__footer">
-      <span :class="styles.passageCard__rule" aria-hidden="true" />
+      <span :class="styles.passageCard__rule"
+            v-html="rulesLabel"
+      />
 
-      <span v-if="props.state === 'locked'" :class="styles.passageCard__lack">
-        <ion-icon :icon="lockClosedOutline" aria-hidden="true" />
-        Не хватает {{ props.missingInk }} {{ declineUnit( props.missingInk, 'drop' ) }}
-      </span>
-
-      <span v-else :class="styles.passageCard__info">
-        <span
-            :aria-label="`${ props.passage.gaps } ${ declineUnit( props.passage.gaps, 'gap' ) }`"
-            :class="styles.passageCard__gaps"
+      <span :class="styles.passageCard__info">
+        <span :aria-label="`${ props.passage.gaps } ${ declineUnit( props.passage.gaps, 'gap' ) }`"
+              :class="styles.passageCard__gaps"
         >
           <ion-icon :icon="waterOutline" aria-hidden="true" />
+
           {{ props.passage.gaps }}
+
+          <span v-if="props.state === 'archived'" :class="styles.passageCard__free">
+            Повтор бесплатно
+          </span>
+        </span>
+
+        <span v-if="props.state === 'locked'" :class="styles.passageCard__lack">
+          <ion-icon :icon="lockClosedOutline" aria-hidden="true" />
+
+          Не хватает {{ props.missingInk }} {{ declineUnit( props.missingInk, 'drop' ) }}
         </span>
 
         <span :aria-label="`Сложность ${ difficulty } из ${ maxDifficulty }`" :class="styles.passageCard__pips" role="img">
@@ -57,8 +78,6 @@ const difficulty = computed( (): number => Math.min( maxDifficulty, Math.ceil( p
           />
         </span>
       </span>
-
-      <span v-if="props.state === 'archived'" :class="styles.passageCard__free">Повтор бесплатно</span>
     </span>
 
     <span :class="styles.passageCard__hole" aria-hidden="true" />

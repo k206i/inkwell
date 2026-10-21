@@ -33,7 +33,7 @@
 
   // Defaults
   --ink-font-default: 'Roboto', sans-serif;
-  --ink-font-paper: serif;
+  --ink-font-paper: 'Literata', serif;
   --ink-color-font: #ece8f4;
   --ink-color-font-low: #8f88a3;
   --ink-color-font-accent: #fff;
@@ -51,16 +51,13 @@
   --ink-color-warning: #f2b348;
   --ink-color-error: #d9483b;
 
-  // Рукопись: бумага, чернила игрока, клякса
+  // Рукопись: бумага, чернила игрока
   --ink-color-paper: #f2ebdd;
   --ink-color-paper-font: #2a2433;
   --ink-color-paper-gap: #b9ae99;
   --ink-color-paper-font-low: #5c5348;
   --ink-color-paper-rule: #cbbfa6;
   --ink-color-paper-pip: #d6ccb8;
-  --ink-color-paper-locked: #c9c2b2;
-  --ink-color-paper-locked-font: #4d4558;
-  --ink-color-paper-locked-rule: #a99f8c;
   --ink-color-stamp: #7a5c16;
   --ink-color-ink: #5b3cc4;
   --ink-color-draft: #3f8f24; // зелёный черновик на бумаге: темнее визора, иначе не читается

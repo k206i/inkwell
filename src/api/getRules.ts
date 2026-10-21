@@ -10,6 +10,7 @@ export type TRule = {
   id: string,
   section: string,
   title: string,
+  short: string, // короткое название для карточки абзаца в каталоге
   hint: string,
   text: string[],
   exceptions: string[],

@@ -24,6 +24,7 @@ import '@ionic/vue/css/display.css';
 import '@ionic/vue/css/palettes/dark.always.css'
 
 /* Theme variables */
+import './assets/fonts/fonts.scss';
 import './assets/styles/vars.scss';
 import './assets/styles/variables.css';
 import './assets/styles/main.scss';

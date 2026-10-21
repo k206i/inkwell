@@ -7,14 +7,33 @@ import AppHeader from '@/components/AppHeader/appHeader.vue';
 import InkLevel from '@/components/InkLevel/inkLevel.vue';
 import PassageCard, { type TPassageCardState } from '@/components/PassageCard/passageCard.vue';
 import { getPassages, type TPassage } from '@/api/getPassages';
+import { getRules, type TRule } from '@/api/getRules';
+import { getPassageRules } from '@/composables/getPassageRules';
 import { groupPassages, type TAuthorGroup, type TWorkGroup } from '@/composables/groupPassages';
 import { appStore } from '@/store/appStore';
+import { appVars } from '@/configApp';
 
 const passages = ref< TPassage[] >( [] );
+const rules = ref< TRule[] >( [] );
 
 getPassages().then( ( result: TPassage[] ) => {
   passages.value = result;
 });
+
+getRules().then( ( result: TRule[] ) => {
+  rules.value = result;
+});
+
+const ruleShorts = computed( (): Map< string, string > => new Map( rules.value
+  .filter( ( rule: TRule ) => !appVars.catalog.hiddenRuleSections.includes( rule.section ))
+  .map( ( rule: TRule ): [ string, string ] => [ rule.id, rule.short ] )));
+
+const getRuleShorts = ( passage: TPassage ): string[] => getPassageRules( passage.text )
+  .flatMap( ( ruleId: string ): string[] => {
+    const short: string | undefined = ruleShorts.value.get( ruleId );
+
+    return short ? [ short ] : [];
+  });
 
 const groups = computed( (): TAuthorGroup[] => groupPassages( passages.value ));
 
@@ -69,6 +88,7 @@ const getState = ( passage: TPassage ): TPassageCardState => {
                   <PassageCard
                       :missing-ink="getMissingInk( passage )"
                       :passage="passage"
+                      :rules="getRuleShorts( passage )"
                       :state="getState( passage )"
                   />
                 </li>

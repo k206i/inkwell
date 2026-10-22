@@ -5,6 +5,7 @@ import styles from './archivePage.module.scss';
 import listCard from '@/assets/styles/listCard.module.scss';
 import AppHeader from '@/components/AppHeader/appHeader.vue';
 import { getPassages, type TPassage } from '@/api/getPassages';
+import { getAuthors, type TAuthor } from '@/api/getAuthors';
 import { fillGaps, getGaps, parseGaps, type TGap, type TTextPart } from '@/composables/parseGaps';
 import { appStore } from '@/store/appStore';
 
@@ -14,6 +15,14 @@ const opened = ref< TPassage | null >( null );
 getPassages().then( ( result: TPassage[] ) => {
   passages.value = result;
 });
+
+const authors = ref< TAuthor[] >( [] );
+
+getAuthors().then( ( result: TAuthor[] ) => {
+  authors.value = result;
+});
+
+const getAuthorName = ( passage: TPassage ): string => authors.value.find( ( author: TAuthor ) => author.id === passage.authorId )?.short ?? '';
 
 const restored = computed( (): TPassage[] => passages.value.filter( ( passage: TPassage ) => appStore.restoredPassages.includes( passage.id )));
 
@@ -41,7 +50,7 @@ const openedText = computed( (): string => {
               @click="opened = passage"
           >
             <span :class="listCard.listCard__title">{{ passage.title }}</span>
-            <span :class="listCard.listCard__meta">{{ passage.author }}, «{{ passage.work }}»</span>
+            <span :class="listCard.listCard__meta">{{ getAuthorName( passage ) }}, «{{ passage.work }}»</span>
           </button>
         </li>
       </ul>
@@ -65,7 +74,7 @@ const openedText = computed( (): string => {
         <ion-content class="ion-padding">
           <template v-if="opened">
             <p :class="styles.archivePage__paper">{{ openedText }}</p>
-            <p :class="styles.archivePage__source">{{ opened.author }}, «{{ opened.work }}»</p>
+            <p :class="styles.archivePage__source">{{ getAuthorName( opened ) }}, «{{ opened.work }}»</p>
           </template>
         </ion-content>
       </ion-modal>

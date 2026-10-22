@@ -1,3 +1,4 @@
+import type { TAuthor } from '@/api/getAuthors';
 import type { TPassage } from '@/api/getPassages';
 
 export type TWorkGroup = {
@@ -6,31 +7,33 @@ export type TWorkGroup = {
 };
 
 export type TAuthorGroup = {
-  author: string,
+  author: TAuthor,
   works: TWorkGroup[],
 };
 
 const collator: Intl.Collator = new Intl.Collator( 'ru' );
 
 // Фамилия — последнее слово: «Л. Н. Толстой» → «Толстой»
-const getSurname = ( author: string ): string => author.split( ' ' ).pop() ?? author;
+const getSurname = ( author: TAuthor ): string => author.short.split( ' ' ).pop() ?? author.short;
 
-// Каталог: авторы по фамилии, произведения по алфавиту, абзацы от лёгкого к сложному
-export const groupPassages = ( passages: TPassage[] ): TAuthorGroup[] => {
-  const authors: Map< string, Map< string, TPassage[] >> = new Map();
+// Каталог: авторы по фамилии, произведения по алфавиту, абзацы от лёгкого к сложному.
+// Абзацы автора, которого нет в authors.json, не показываются
+export const groupPassages = ( passages: TPassage[], authors: TAuthor[] ): TAuthorGroup[] => {
+  const byAuthor: Map< string, Map< string, TPassage[] >> = new Map();
 
   for ( const passage of passages ) {
-    const works: Map< string, TPassage[] > = authors.get( passage.author ) ?? new Map();
+    const works: Map< string, TPassage[] > = byAuthor.get( passage.authorId ) ?? new Map();
 
     works.set( passage.work, [ ...( works.get( passage.work ) ?? [] ), passage ] );
-    authors.set( passage.author, works );
+    byAuthor.set( passage.authorId, works );
   }
 
-  return [ ...authors ]
-    .sort( ( [ a ], [ b ] ) => collator.compare( getSurname( a ), getSurname( b )))
-    .map( ( [ author, works ] ): TAuthorGroup => ({
+  return authors
+    .filter( ( author: TAuthor ) => byAuthor.has( author.id ))
+    .sort( ( a: TAuthor, b: TAuthor ) => collator.compare( getSurname( a ), getSurname( b )))
+    .map( ( author: TAuthor ): TAuthorGroup => ({
       author,
-      works: [ ...works ]
+      works: [ ...( byAuthor.get( author.id ) ?? [] ) ]
         .sort( ( [ a ], [ b ] ) => collator.compare( a, b ))
         .map( ( [ work, list ] ): TWorkGroup => ({
           work,

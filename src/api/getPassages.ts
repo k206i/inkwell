@@ -3,8 +3,7 @@ import passages from '@/jsons/passages.json';
 export type TPassage = {
   id: string,
   title: string, // короткое название по сюжету абзаца, без слов с его пропусками
-  author: string,
-  authorLink: string,
+  authorId: string, // id автора из authors.json
   work: string,
   workLink: string,
   gaps: number,

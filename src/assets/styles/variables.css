@@ -53,13 +53,13 @@ http://ionicframework.com/docs/theming/ */
     --ion-background-color: var( --ink-color-bg );
     --ion-background-color-rgb: var( --ink-color-bg_rgb );
     --ion-text-color: var( --ink-color-font );
-    --ion-border-color: var( --ink-color-border );
+    --ion-border-color: var( --ink-color-theme-border );
 
     --ion-toolbar-background: var( --ink-color-theme-dark );
-    --ion-toolbar-border-color: var( --ink-color-border );
+    --ion-toolbar-border-color: var( --ink-color-theme-border );
 
     --ion-tab-bar-background: var( --ink-color-theme-dark );
-    --ion-tab-bar-border-color: var( --ink-color-border );
+    --ion-tab-bar-border-color: var( --ink-color-theme-border );
     --ion-tab-bar-color: var( --ink-color-font-low );
     --ion-tab-bar-color-selected: var( --ink-color-theme );
 }

@@ -8,16 +8,24 @@ import InkLevel from '@/components/InkLevel/inkLevel.vue';
 import PassageCard, { type TPassageCardState } from '@/components/PassageCard/passageCard.vue';
 import { getPassages, type TPassage } from '@/api/getPassages';
 import { getRules, type TRule } from '@/api/getRules';
+import { getAuthors, type TAuthor } from '@/api/getAuthors';
 import { getPassageRules } from '@/composables/getPassageRules';
 import { groupPassages, type TAuthorGroup, type TWorkGroup } from '@/composables/groupPassages';
 import { appStore } from '@/store/appStore';
 import { appVars } from '@/configApp';
+import UiProgressBar from '@/components/Ui/ProgressBar/uiProgressBar.vue';
+import WidgetAuthorShort from '@/components/Widgets/Author/widgetAuthorShort.vue';
 
 const passages = ref< TPassage[] >( [] );
 const rules = ref< TRule[] >( [] );
+const authors = ref< TAuthor[] >( [] );
 
 getPassages().then( ( result: TPassage[] ) => {
   passages.value = result;
+});
+
+getAuthors().then( ( result: TAuthor[] ) => {
+  authors.value = result;
 });
 
 getRules().then( ( result: TRule[] ) => {
@@ -35,10 +43,10 @@ const getRuleShorts = ( passage: TPassage ): string[] => getPassageRules( passag
     return short ? [ short ] : [];
   });
 
-const groups = computed( (): TAuthorGroup[] => groupPassages( passages.value ));
+const groups = computed( (): TAuthorGroup[] => groupPassages( passages.value, authors.value ));
 
 // При входе авторы раскрыты, произведения свёрнуты
-const openAuthors = computed( (): string[] => groups.value.map( ( group: TAuthorGroup ) => group.author ));
+const openAuthors = computed( (): string[] => groups.value.map( ( group: TAuthorGroup ) => group.author.id ));
 
 const isRestored = ( passage: TPassage ): boolean => appStore.restoredPassages.includes( passage.id );
 
@@ -66,11 +74,18 @@ const getState = ( passage: TPassage ): TPassageCardState => {
       <InkLevel :class="styles.catalogPage__ink" />
 
       <ion-accordion-group :class="styles.catalogPage__authors" multiple :value="openAuthors">
-        <ion-accordion v-for="group in groups" :key="group.author" :value="group.author">
+        <ion-accordion v-for="group in groups" :key="group.author.id" :value="group.author.id">
           <ion-item slot="header" :class="styles.catalogPage__header" lines="none">
             <ion-label>
-              <span :class="styles.catalogPage__author">{{ group.author }}</span>
-              <span :class="styles.catalogPage__progress">{{ getProgress( getAuthorPassages( group )) }}</span>
+              <WidgetAuthorShort
+                  :author-id="group.author.id"
+                  :comment="getProgress( getAuthorPassages( group ))"
+              />
+
+              <UiProgressBar
+                  :total="getAuthorPassages( group ).length"
+                  :value="getAuthorPassages( group ).filter( isRestored ).length"
+              />
             </ion-label>
           </ion-item>
 

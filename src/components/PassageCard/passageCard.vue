@@ -52,16 +52,15 @@ const difficulty = computed( (): number => Math.min( maxDifficulty, Math.ceil( p
       />
 
       <span :class="styles.passageCard__info">
-        <span :aria-label="`${ props.passage.gaps } ${ declineUnit( props.passage.gaps, 'gap' ) }`"
+        <span v-if="props.state === 'archived'" :class="styles.passageCard__free">
+          Повтор не тратит чернила
+        </span>
+        <span v-else :aria-label="`${ props.passage.gaps } ${ declineUnit( props.passage.gaps, 'gap' ) }`"
               :class="styles.passageCard__gaps"
         >
           <ion-icon :icon="waterOutline" aria-hidden="true" />
 
           {{ props.passage.gaps }}
-
-          <span v-if="props.state === 'archived'" :class="styles.passageCard__free">
-            Повтор бесплатно
-          </span>
         </span>
 
         <span v-if="props.state === 'locked'" :class="styles.passageCard__lack">

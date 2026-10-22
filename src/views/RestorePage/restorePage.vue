@@ -9,6 +9,7 @@ import InkLevel from '@/components/InkLevel/inkLevel.vue';
 import GapText from '@/components/GapText/gapText.vue';
 import { getPassageById } from '@/api/getPassageById';
 import type { TPassage } from '@/api/getPassages';
+import { getAuthors, type TAuthor } from '@/api/getAuthors';
 import { getGaps, parseGaps, type TGap, type TGapResult } from '@/composables/parseGaps';
 import { declineUnit } from '@/composables/declineUnit';
 import { appStore, archivePassage, recordAnswer, spendInk } from '@/store/appStore';
@@ -42,6 +43,14 @@ getPassageById( String( route.params.id )).then( ( result: TPassage | null ) => 
   isLoaded.value = true;
   resetSheet();
 });
+
+const authors = ref< TAuthor[] >( [] );
+
+getAuthors().then( ( result: TAuthor[] ) => {
+  authors.value = result;
+});
+
+const authorName = computed( (): string => authors.value.find( ( author: TAuthor ) => author.id === passage.value?.authorId )?.short ?? '' );
 
 // Ionic держит страницу в стеке, поэтому при повторном входе после архива лист очищаем сами
 onIonViewWillEnter( () => {
@@ -150,7 +159,7 @@ const onPrint = async () => {
               :text="passage.text"
           />
 
-          <p :class="styles.restorePage__source">{{ passage.author }}, «{{ passage.work }}»</p>
+          <p :class="styles.restorePage__source">{{ authorName }}, «{{ passage.work }}»</p>
 
           <div :class="styles.restorePage__actions">
             <template v-if="status === 'archived'">

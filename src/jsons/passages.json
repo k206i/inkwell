@@ -2,8 +2,7 @@
   {
     "id": "anna-karenina_guests",
     "title": "Вечер в гостиной",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 15,
@@ -12,8 +11,7 @@
   {
     "id": "anna-karenina_dolly",
     "title": "Долли с запиской",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 5,
@@ -22,8 +20,7 @@
   {
     "id": "anna-karenina_stepan",
     "title": "Ответ жене",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 3,
@@ -32,8 +29,7 @@
   {
     "id": "anna-karenina_smile",
     "title": "Глупая улыбка",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 5,
@@ -42,8 +38,7 @@
   {
     "id": "anna-karenina_families",
     "title": "Начало романа",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 5,
@@ -52,8 +47,7 @@
   {
     "id": "anna-karenina_telegram",
     "title": "Телеграмма",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 5,
@@ -62,8 +56,7 @@
   {
     "id": "anna-karenina_levin-spring",
     "title": "Весна Левина",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 20,
@@ -72,8 +65,7 @@
   {
     "id": "anna-karenina_levin-boots",
     "title": "Сапоги и поддёвка",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 6,
@@ -82,8 +74,7 @@
   {
     "id": "anna-karenina_elections",
     "title": "После выборов",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Анна Каренина",
     "workLink": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)",
     "gaps": 14,
@@ -92,8 +83,7 @@
   {
     "id": "war-and-peace_prince-vasili",
     "title": "Князь Василий",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 10,
@@ -102,18 +92,16 @@
   {
     "id": "war-and-peace_anna-pavlovna",
     "title": "Анна Павловна",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 7,
-    "text": "Князь равнодушно замолк. Анна Павловна, с свойственною ей пр[и|е#pre-pri]дворною и женскою ловкостью и быстротою такта, захотела и щелконуть князя за то[,|#spp] что он дерзнул так отозват[ь|#tsya]ся о лице[,|#participle] рекомендованном императрице[,|#participle] и в то[_|#to-zhe]же время ут[е|и#vowel]шить его."
+    "text": "Князь р[а|о#vowel]внодушно замолк. Анна Павловна, с свойственною ей пр[и|е#pre-pri]дворною и женскою ловкостью и быстротою такта, захотела и щелконуть князя за то[,|#spp] что он дерзнул так отозват[ь|#tsya]ся о лице[,|#participle] рекомендованном императрице[,|#participle] и в то[_|#to-zhe]же время утешить его."
   },
   {
     "id": "war-and-peace_berg",
     "title": "Хорошее общество",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 13,
@@ -122,8 +110,7 @@
   {
     "id": "war-and-peace_berg-proposal",
     "title": "Сватовство Берга",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 14,
@@ -132,8 +119,7 @@
   {
     "id": "war-and-peace_countess-sonya",
     "title": "Графиня и Соня",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 16,
@@ -142,8 +128,7 @@
   {
     "id": "war-and-peace_pierre-big-city",
     "title": "Пьер в большом городе",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 12,
@@ -152,8 +137,7 @@
   {
     "id": "war-and-peace_pavlograd",
     "title": "Павлоградский полк",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 15,
@@ -162,8 +146,7 @@
   {
     "id": "war-and-peace_rostov-house",
     "title": "Дом Ростовых",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 14,
@@ -172,8 +155,7 @@
   {
     "id": "war-and-peace_otradnoe-night",
     "title": "Ночь в Отрадном",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 14,
@@ -182,8 +164,7 @@
   {
     "id": "war-and-peace_berg-evening",
     "title": "Вечер у Бергов",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 15,
@@ -192,8 +173,7 @@
   {
     "id": "war-and-peace_natasha-visit",
     "title": "Визит к Болконским",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 13,
@@ -202,8 +182,7 @@
   {
     "id": "war-and-peace_danilo",
     "title": "Данило в кабинете",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 12,
@@ -212,8 +191,7 @@
   {
     "id": "war-and-peace_speransky-laugh",
     "title": "Смех Сперанского",
-    "author": "Л. Н. Толстой",
-    "authorLink": "https://ru.wikipedia.org/wiki/Толстой,_Лев_Николаевич",
+    "authorId": "tolstoy",
     "work": "Война и мир",
     "workLink": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)",
     "gaps": 12,

@@ -2,6 +2,7 @@
 import { IonHeader, IonToolbar, IonButtons, IonBackButton, IonButton, IonIcon } from '@ionic/vue';
 import { arrowBack, homeOutline } from 'ionicons/icons';
 import styles from './appHeader.module.scss';
+import InkLevel from '@/components/InkLevel/inkLevel.vue';
 
 const props = defineProps<{
   pageName?: string,
@@ -23,14 +24,20 @@ const props = defineProps<{
         <div v-if="props.pageName"
              v-html="props.pageName"
         />
-        <template v-else>Чернильница</template>
+        <template v-else>
+          Чернильница
+        </template>
       </div>
 
       <!-- root очищает стек страниц: иначе круги «каталог → абзац → главная» копились бы в «назад» -->
-      <ion-buttons v-if="!props.isHomePage" slot="end">
-        <ion-button aria-label="На главную" router-direction="root" router-link="/home">
-          <ion-icon slot="icon-only" :icon="homeOutline" />
-        </ion-button>
+      <ion-buttons slot="end">
+        <template v-if="!props.isHomePage">
+          <InkLevel :class="styles.appHeader__inkPanel" />
+
+          <ion-button aria-label="На главную" router-direction="root" router-link="/home">
+            <ion-icon slot="icon-only" :icon="homeOutline" />
+          </ion-button>
+        </template>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>

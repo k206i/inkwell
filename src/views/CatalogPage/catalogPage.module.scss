@@ -15,6 +15,11 @@
     font-size: 18px;
   }
 
+  &__progressBar {
+    margin-top: var( --ink-size-gap-s );
+    color: var( --ink-color-gold );
+  }
+
   &__work {
     display: block;
     font-size: 17px;

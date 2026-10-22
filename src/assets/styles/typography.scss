@@ -1,0 +1,37 @@
+.typography {
+  &__widgetTitle {
+    margin-bottom: var( --ink-size-gap );
+    font-size: 18px;
+    font-family: var( --ink-font-default-alt );
+    text-shadow: 1px 1px 6px #000;
+  }
+
+  &__h1 {
+    font-family: var( --ink-font-default-alt );
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var( --ink-color-font-accent );
+  }
+
+  &__h2 {
+    font-family: var( --ink-font-default-alt );
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var( --ink-color-font-accent );
+  }
+
+  &__h3 {
+    font-family: var( --ink-font-default-alt );
+    font-size: 20px;
+    font-weight: 500;
+    color: var( --ink-color-font-accent );
+  }
+
+  &__h4 {
+    font-family: var( --ink-font-default-alt );
+    font-size: 14px;
+    color: var( --ink-color-font-accent );
+  }
+}

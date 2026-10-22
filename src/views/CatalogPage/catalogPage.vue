@@ -45,8 +45,6 @@ const getRuleShorts = ( passage: TPassage ): string[] => getPassageRules( passag
 
 const groups = computed( (): TAuthorGroup[] => groupPassages( passages.value, authors.value ));
 
-// При входе авторы раскрыты, произведения свёрнуты
-const openAuthors = computed( (): string[] => groups.value.map( ( group: TAuthorGroup ) => group.author.id ));
 
 const isRestored = ( passage: TPassage ): boolean => appStore.restoredPassages.includes( passage.id );
 
@@ -71,9 +69,7 @@ const getState = ( passage: TPassage ): TPassageCardState => {
     <AppHeader page-name="Реставрация" />
 
     <ion-content :fullscreen="true" class="ion-padding">
-      <InkLevel :class="styles.catalogPage__ink" />
-
-      <ion-accordion-group :class="styles.catalogPage__authors" multiple :value="openAuthors">
+      <ion-accordion-group :class="styles.catalogPage__authors" multiple>
         <ion-accordion v-for="group in groups" :key="group.author.id" :value="group.author.id">
           <ion-item slot="header" :class="styles.catalogPage__header" lines="none">
             <ion-label>
@@ -83,6 +79,7 @@ const getState = ( passage: TPassage ): TPassageCardState => {
               />
 
               <UiProgressBar
+                  :class="styles.catalogPage__progressBar"
                   :total="getAuthorPassages( group ).length"
                   :value="getAuthorPassages( group ).filter( isRestored ).length"
               />

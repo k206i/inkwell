@@ -1,5 +1,13 @@
+@use "@/assets/styles/typography";
+
 .restorePage {
   &__ink {
+    margin-bottom: var( --ink-size-gap );
+  }
+
+  &__title {
+    @extend .typography__h1;
+    font-style: italic;
     margin-bottom: var( --ink-size-gap );
   }
 

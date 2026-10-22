@@ -1,7 +1,7 @@
 .inkLevel {
   display: flex;
   justify-content: center;
-  gap: var( --ink-size-gap-l );
+  gap: var( --ink-size-gap-s );
   font-size: 16px;
   color: var( --ink-color-font );
 
@@ -12,7 +12,10 @@
   }
 
   &__link {
-    color: inherit;
+    padding: 3px 11px 2px 6px;
+    border: 1px solid var( --ink-color-theme-border);
+    border-radius: var( --ink-size-border-radius );
+    background-color: var( --ink-color-white-5 );
     text-decoration: none;
   }
 

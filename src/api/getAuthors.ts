@@ -7,8 +7,8 @@ export type TAuthorWork = {
 
 export type TAuthor = {
   id: string, // фамилия латиницей, на неё ссылается authorId абзаца
-  short: string, // «Л. Н. Толстой»
-  fullName: string,
+  short: string, // Л. Н. Толстой
+  fullName: string, // Лев Николаевич Толстой
   photo: string, // имя файла в src/assets/img/authors
   avatar: string,
   years: string,

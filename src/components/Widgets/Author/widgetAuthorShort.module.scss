@@ -3,19 +3,26 @@
   align-items: center;
   gap: var( --ink-size-gap );
 
-  &__userpic {
+  &__avatar {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 50px;
     aspect-ratio: 1;
     font-family: var( --ink-font-paper );
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 500;
     color: var( --ink-color-gold );
     border-radius: 100%;
     border: 1px solid var( --ink-color-theme-border );
     background-color: var( --ink-color-theme-bg );
+    overflow: hidden;
+  }
+
+  &__avatarImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &__content {
@@ -32,9 +39,5 @@
   &__comment {
     font-size: 14px;
     color: var( --ink-color-font-low );
-  }
-
-  &__progress {
-
   }
 }

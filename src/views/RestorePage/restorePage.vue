@@ -131,13 +131,15 @@ const onPrint = async () => {
 
 <template>
   <ion-page>
-    <AppHeader :page-name="passage ? `«${ passage.work }»` : 'Реставрация'" />
+    <AppHeader page-name="Реставрация" />
 
     <ion-content :fullscreen="true" class="ion-padding">
       <p v-if="isLoaded && !passage">Абзац не найден.</p>
 
       <template v-if="passage">
-        <InkLevel :class="styles.restorePage__ink" />
+        <div :class="styles.restorePage__title">
+          {{ passage.work }}
+        </div>
 
         <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
           Повтор: чернила не тратятся.

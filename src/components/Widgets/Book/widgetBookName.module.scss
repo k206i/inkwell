@@ -1,0 +1,45 @@
+.widgetBookName {
+  display: flex;
+  align-items: center;
+  gap: var( --ink-size-gap );
+  padding: var( --ink-size-gap );
+  background: var( --ink-color-theme-dark );
+  border: 1px solid var( --ink-color-theme-border );
+  border-radius: var( --ink-size-border-radius );
+
+  &__icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    aspect-ratio: 1;
+    font-size: 28px;
+    color: var( --ink-color-theme );
+    border-radius: var( --ink-size-border-radius-s );
+    background-color: rgba( var( --ink-color-theme_rgb ), .15 );
+  }
+
+  &__content {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-family: var( --ink-font-paper );
+    font-size: 22px;
+    font-weight: 500;
+    color: var( --ink-color-font-accent );
+  }
+
+  &__comment {
+    margin-top: var( --ink-size-gap-xxs );
+    font-size: 14px;
+    color: var( --ink-color-font-low );
+  }
+
+  &__progressBar {
+    margin-top: var( --ink-size-gap-s );
+    color: var( --ink-color-gold );
+  }
+}

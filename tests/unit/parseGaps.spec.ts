@@ -1,8 +1,10 @@
 import { describe, expect, test } from 'vitest';
 import { fillGaps, getGaps, getOptionLabel, groupWords, parseGaps, type TWordChunk } from '@/composables/parseGaps';
-import passages from '@/jsons/passages.json';
+import { getPassages, type TPassage } from '@/api/getPassages';
 import rules from '@/jsons/rules.json';
 import { appVars } from '@/configApp';
+
+const passages: TPassage[] = await getPassages();
 
 describe( 'разметка пропусков', () => {
   test( 'буква с правилом: первый вариант правильный', () => {

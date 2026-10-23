@@ -7,44 +7,54 @@
     "avatar": "tolstoy_ava.webp",
     "years": "1828–1910",
     "bio": "Русский писатель и мыслитель, один из самых известных романистов мира. Родился в усадьбе Ясная Поляна под Тулой, служил на Кавказе и участвовал в обороне Севастополя. В поздние годы проповедовал нравственное самосовершенствование и непротивление злу насилием.",
-    "works": [
+    "books": [
       {
+        "id": "childhood",
         "title": "Детство",
         "link": "https://ru.wikisource.org/wiki/Детство_(Толстой)"
       },
       {
+        "id": "boyhood",
         "title": "Отрочество",
         "link": "https://ru.wikisource.org/wiki/Отрочество_(Толстой)"
       },
       {
+        "id": "youth",
         "title": "Юность",
         "link": "https://ru.wikisource.org/wiki/Юность_(Толстой)"
       },
       {
+        "id": "sevastopol-sketches",
         "title": "Севастопольские рассказы",
         "link": "https://ru.wikisource.org/wiki/Севастопольские_рассказы_(Толстой)"
       },
       {
+        "id": "war-and-peace",
         "title": "Война и мир",
         "link": "https://ru.wikisource.org/wiki/Война_и_мир_(Толстой)"
       },
       {
+        "id": "anna-karenina",
         "title": "Анна Каренина",
         "link": "https://ru.wikisource.org/wiki/Анна_Каренина_(Толстой)"
       },
       {
+        "id": "death-of-ivan-ilyich",
         "title": "Смерть Ивана Ильича",
         "link": "https://ru.wikisource.org/wiki/Смерть_Ивана_Ильича_(Толстой)"
       },
       {
+        "id": "kreutzer-sonata",
         "title": "Крейцерова соната",
         "link": "https://ru.wikisource.org/wiki/Крейцерова_соната_(Толстой)"
       },
       {
+        "id": "resurrection",
         "title": "Воскресение",
         "link": "https://ru.wikisource.org/wiki/Воскресение_(Толстой)"
       },
       {
+        "id": "hadji-murat",
         "title": "Хаджи-Мурат",
         "link": "https://ru.wikisource.org/wiki/Хаджи-Мурат_(Толстой)"
       }

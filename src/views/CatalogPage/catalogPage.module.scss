@@ -20,20 +20,22 @@
     color: var( --ink-color-gold );
   }
 
-  &__work {
-    display: block;
-    font-size: 17px;
+  // Карточка произведения сама раскрывает аккордеон, стрелка не нужна
+  &__bookHeader {
+    --border-radius: var( --ink-size-border-radius );
+    margin-top: var( --ink-size-gap-s );
+
+    :global( .ion-accordion-toggle-icon ) {
+      display: none;
+    }
   }
 
-  &__progress {
-    display: block;
-    margin-top: 2px;
-    font-size: 13px;
-    color: var( --ink-color-font-low );
+  &__book {
+    flex-grow: 1;
   }
 
   // Произведения и абзацы сдвинуты вправо, чтобы уровни читались без рамок
-  &__works {
+  &__books {
     padding-left: var( --ink-size-gap );
   }
 

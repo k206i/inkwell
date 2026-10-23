@@ -10,11 +10,12 @@ import { getPassages, type TPassage } from '@/api/getPassages';
 import { getRules, type TRule } from '@/api/getRules';
 import { getAuthors, type TAuthor } from '@/api/getAuthors';
 import { getPassageRules } from '@/composables/getPassageRules';
-import { groupPassages, type TAuthorGroup, type TWorkGroup } from '@/composables/groupPassages';
+import { groupPassages, type TAuthorGroup, type TBookGroup } from '@/composables/groupPassages';
 import { appStore } from '@/store/appStore';
 import { appVars } from '@/configApp';
 import UiProgressBar from '@/components/Ui/ProgressBar/uiProgressBar.vue';
 import WidgetAuthorShort from '@/components/Widgets/Author/widgetAuthorShort.vue';
+import WidgetBookName from '@/components/Widgets/Book/widgetBookName.vue';
 
 const passages = ref< TPassage[] >( [] );
 const rules = ref< TRule[] >( [] );
@@ -50,7 +51,7 @@ const isRestored = ( passage: TPassage ): boolean => appStore.restoredPassages.i
 
 const getProgress = ( list: TPassage[] ): string => `восстановлено ${ list.filter( isRestored ).length } из ${ list.length }`;
 
-const getAuthorPassages = ( group: TAuthorGroup ): TPassage[] => group.works.flatMap( ( work: TWorkGroup ) => work.passages );
+const getAuthorPassages = ( group: TAuthorGroup ): TPassage[] => group.books.flatMap( ( book: TBookGroup ) => book.passages );
 
 // Повтор абзаца из архива бесплатный, поэтому чернилами он не закрывается
 const getMissingInk = ( passage: TPassage ): number => isRestored( passage ) ? 0 : Math.max( 0, passage.gaps - appStore.ink );
@@ -86,17 +87,14 @@ const getState = ( passage: TPassage ): TPassageCardState => {
             </ion-label>
           </ion-item>
 
-          <ion-accordion-group slot="content" :class="styles.catalogPage__works" multiple>
-            <ion-accordion v-for="work in group.works" :key="work.work" :value="work.work">
-              <ion-item slot="header" :class="styles.catalogPage__header" lines="none">
-                <ion-label>
-                  <span :class="styles.catalogPage__work">«{{ work.work }}»</span>
-                  <span :class="styles.catalogPage__progress">{{ getProgress( work.passages ) }}</span>
-                </ion-label>
+          <ion-accordion-group slot="content" :class="styles.catalogPage__books" multiple>
+            <ion-accordion v-for="book in group.books" :key="book.book.id" :value="book.book.id">
+              <ion-item slot="header" :class="[ styles.catalogPage__header, styles.catalogPage__bookHeader ]" lines="none">
+                <WidgetBookName :class="styles.catalogPage__book" :book-id="book.book.id" />
               </ion-item>
 
               <ul slot="content" :class="[ listCard.listCard, styles.catalogPage__passages ]">
-                <li v-for="passage in work.passages" :key="passage.id">
+                <li v-for="passage in book.passages" :key="passage.id">
                   <PassageCard
                       :missing-ink="getMissingInk( passage )"
                       :passage="passage"

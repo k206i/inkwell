@@ -5,7 +5,7 @@ import styles from './archivePage.module.scss';
 import listCard from '@/assets/styles/listCard.module.scss';
 import AppHeader from '@/components/AppHeader/appHeader.vue';
 import { getPassages, type TPassage } from '@/api/getPassages';
-import { getAuthors, type TAuthor } from '@/api/getAuthors';
+import { getAuthors, getPassageSource, type TAuthor } from '@/api/getAuthors';
 import { fillGaps, getGaps, parseGaps, type TGap, type TTextPart } from '@/composables/parseGaps';
 import { appStore } from '@/store/appStore';
 
@@ -22,7 +22,9 @@ getAuthors().then( ( result: TAuthor[] ) => {
   authors.value = result;
 });
 
-const getAuthorName = ( passage: TPassage ): string => authors.value.find( ( author: TAuthor ) => author.id === passage.authorId )?.short ?? '';
+const getAuthorName = ( passage: TPassage ): string => getPassageSource( authors.value, passage ).author?.short ?? '';
+
+const getBookTitle = ( passage: TPassage ): string => getPassageSource( authors.value, passage ).book?.title ?? '';
 
 const restored = computed( (): TPassage[] => passages.value.filter( ( passage: TPassage ) => appStore.restoredPassages.includes( passage.id )));
 
@@ -50,7 +52,7 @@ const openedText = computed( (): string => {
               @click="opened = passage"
           >
             <span :class="listCard.listCard__title">{{ passage.title }}</span>
-            <span :class="listCard.listCard__meta">{{ getAuthorName( passage ) }}, «{{ passage.work }}»</span>
+            <span :class="listCard.listCard__meta">{{ getAuthorName( passage ) }}, «{{ getBookTitle( passage ) }}»</span>
           </button>
         </li>
       </ul>
@@ -63,7 +65,7 @@ const openedText = computed( (): string => {
       <ion-modal :is-open="opened !== null" @did-dismiss="opened = null">
         <ion-header>
           <ion-toolbar>
-            <ion-title>{{ opened ? `«${ opened.work }»` : '' }}</ion-title>
+            <ion-title>{{ opened ? `«${ getBookTitle( opened ) }»` : '' }}</ion-title>
 
             <ion-buttons slot="end">
               <ion-button @click="opened = null">Закрыть</ion-button>
@@ -74,7 +76,7 @@ const openedText = computed( (): string => {
         <ion-content class="ion-padding">
           <template v-if="opened">
             <p :class="styles.archivePage__paper">{{ openedText }}</p>
-            <p :class="styles.archivePage__source">{{ getAuthorName( opened ) }}, «{{ opened.work }}»</p>
+            <p :class="styles.archivePage__source">{{ getAuthorName( opened ) }}, «{{ getBookTitle( opened ) }}»</p>
           </template>
         </ion-content>
       </ion-modal>

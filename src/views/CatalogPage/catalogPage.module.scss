@@ -1,3 +1,5 @@
+@use "@/assets/styles/typography";
+
 .catalogPage {
   &__ink {
     margin-bottom: var( --ink-size-gap );
@@ -36,10 +38,68 @@
 
   // Произведения и абзацы сдвинуты вправо, чтобы уровни читались без рамок
   &__books {
-    padding-left: var( --ink-size-gap );
+    padding-left: var( --ink-size-side-indent );
   }
 
   &__passages {
-    padding: 0 0 var( --ink-size-gap ) var( --ink-size-gap );
+    display: grid;
+    grid-template-columns: repeat( auto-fill, minmax( min( 280px, 100% ), 1fr ));
+    margin: var( --ink-size-gap-s ) 0 var( --ink-size-gap );
+  }
+
+  // Широкий экран: книги слева, абзацы выбранной книги справа, у колонок своя прокрутка
+  &__wide {
+    display: flex;
+    height: 100%;
+  }
+
+  &__aside {
+    flex-shrink: 0;
+    width: 360px;
+    padding: var( --ink-size-gap );
+    overflow-y: auto;
+    border-right: 1px solid var( --ink-color-theme-border );
+  }
+
+  &__asideBooks {
+    padding-bottom: var( --ink-size-gap );
+  }
+
+  &__bookButton {
+    display: block;
+    width: 100%;
+    margin-top: var( --ink-size-gap-s );
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: none;
+  }
+
+  &__main {
+    flex-grow: 1;
+    min-width: 0;
+    padding: var( --ink-size-gap );
+    overflow-y: auto;
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 96px;
+    color: var( --ink-color-theme-border );
+  }
+
+  &__bookTitle {
+    @extend .typography__h1;
+    font-style: italic;
+  }
+
+  &__bookProgress {
+    margin-top: var( --ink-size-gap-xxs );
+    font-size: 14px;
+    color: var( --ink-color-font-low );
   }
 }

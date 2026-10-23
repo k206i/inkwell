@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { IonIcon } from '@ionic/vue';
-import { bookOutline } from 'ionicons/icons';
+import { bookOutline, chevronDown, chevronForward } from 'ionicons/icons';
 import { computed, ref } from 'vue';
 import styles from './widgetBookName.module.scss';
 import UiProgressBar from '@/components/Ui/ProgressBar/uiProgressBar.vue';
 import { getAuthors, type TAuthor, type TAuthorBook } from '@/api/getAuthors';
 import { getPassages, type TPassage } from '@/api/getPassages';
-import { declineUnit } from '@/composables/declineUnit';
+import { getBookProgress } from '@/composables/getBookProgress';
 import { appStore } from '@/store/appStore';
+import { sessionStore } from '@/store/sessionStore';
 
 const props = defineProps<{
   bookId: string,
+  selectable?: boolean, // стрелка справа: на телефоне раскрывает книгу, на планшете выбирает
+  selected?: boolean,
 }>();
 
 const book = ref< TAuthorBook | null >( null );
@@ -32,7 +35,7 @@ const restoredCount = computed( (): number => passageIds.value.filter( ( id: str
 </script>
 
 <template>
-  <div :class="styles.widgetBookName">
+  <div :class="[ styles.widgetBookName, { [styles.widgetBookName_selected]: props.selected && sessionStore.isWide } ]">
     <div :class="styles.widgetBookName__icon">
       <ion-icon :icon="bookOutline" />
     </div>
@@ -43,7 +46,7 @@ const restoredCount = computed( (): number => passageIds.value.filter( ( id: str
       </div>
 
       <div :class="styles.widgetBookName__comment">
-        {{ passageIds.length }} {{ declineUnit( passageIds.length, 'passage' ) }} · {{ restoredCount }} в архиве
+        {{ getBookProgress( passageIds.length, restoredCount ) }}
       </div>
 
       <UiProgressBar
@@ -52,5 +55,14 @@ const restoredCount = computed( (): number => passageIds.value.filter( ( id: str
           :value="restoredCount"
       />
     </div>
+
+    <ion-icon
+        v-if="props.selectable"
+        :class="[ styles.widgetBookName__arrow, {
+          [styles.widgetBookName__arrow_flipped]: props.selected && !sessionStore.isWide,
+          [styles.widgetBookName__arrow_hidden]: !props.selected && sessionStore.isWide,
+        } ]"
+        :icon="sessionStore.isWide ? chevronForward : chevronDown"
+    />
   </div>
 </template>

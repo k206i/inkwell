@@ -6,6 +6,11 @@
   background: var( --ink-color-theme-dark );
   border: 1px solid var( --ink-color-theme-border );
   border-radius: var( --ink-size-border-radius );
+  transition: var( --ink-transition-border );
+
+  &_selected {
+    border-color: var( --ink-color-theme );
+  }
 
   &__icon {
     display: flex;
@@ -17,7 +22,7 @@
     font-size: 28px;
     color: var( --ink-color-theme );
     border-radius: var( --ink-size-border-radius-s );
-    background-color: rgba( var( --ink-color-theme_rgb ), .15 );
+    background-color: var( --ink-color-theme-border );
   }
 
   &__content {
@@ -29,6 +34,7 @@
     font-family: var( --ink-font-paper );
     font-size: 22px;
     font-weight: 500;
+    font-style: italic;
     color: var( --ink-color-font-accent );
   }
 
@@ -39,7 +45,23 @@
   }
 
   &__progressBar {
+    height: 4px;
     margin-top: var( --ink-size-gap-s );
     color: var( --ink-color-gold );
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    font-size: 20px;
+    color: var( --ink-color-font-low );
+    transition: var( --ink-transition-transform ), var( --ink-transition-opacity );
+  }
+
+  &__arrow_flipped {
+    transform: rotateX( 180deg );
+  }
+
+  &__arrow_hidden {
+    opacity: 0;
   }
 }

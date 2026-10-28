@@ -22,7 +22,6 @@
     color: var( --ink-color-gold );
   }
 
-  // Карточка произведения сама раскрывает аккордеон, стрелка не нужна
   &__bookHeader {
     --border-radius: var( --ink-size-border-radius );
     margin-top: var( --ink-size-gap-s );
@@ -34,11 +33,6 @@
 
   &__book {
     flex-grow: 1;
-  }
-
-  // Произведения и абзацы сдвинуты вправо, чтобы уровни читались без рамок
-  &__books {
-    padding-left: var( --ink-size-side-indent );
   }
 
   &__passages {

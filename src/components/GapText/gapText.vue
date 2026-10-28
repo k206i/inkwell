@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { IonContent, IonModal } from '@ionic/vue';
+import { IonContent, IonIcon, IonModal } from '@ionic/vue';
+import { chevronBack, chevronForward } from 'ionicons/icons';
 import { computed, ref, watch } from 'vue';
 import styles from './gapText.module.scss';
 import PaperSheet from '@/components/PaperSheet/paperSheet.vue';
@@ -12,6 +13,7 @@ const props = defineProps<{
   text: string,
   carriage?: boolean,
   disabled?: boolean, // во время печати выбор закрыт
+  panelTarget?: HTMLElement | null,
 }>();
 
 // null — пропуск ещё не заполнен
@@ -45,6 +47,23 @@ const findOpen = ( from: number, draftList: ( string | null )[], resultList: TGa
 
   return -1;
 };
+
+// Стрелки ходят по тем же пропускам, что открываются нажатием на лист: всем, кроме напечатанных верно
+const findSelectable = ( from: number, direction: number ): number => {
+  for ( let index = from; index >= 0 && index < gaps.value.length; index += direction ) {
+    if ( results.value[index] !== 'right' ) {
+      return index;
+    }
+  }
+
+  return -1;
+};
+
+// Без курсора стрелки ведут к последнему и первому доступному пропуску
+const prevIndex = computed( (): number => findSelectable( ( active.value === -1 ? gaps.value.length : active.value ) - 1, -1 ));
+const nextIndex = computed( (): number => findSelectable( active.value + 1, 1 ));
+const hasNav = computed( (): boolean => !props.disabled && gaps.value.length > 1 );
+const filledCount = computed( (): number => drafts.value.filter( ( draft: string | null ) => draft !== null ).length );
 
 watch( () => props.text, () => {
   active.value = 0;
@@ -106,26 +125,58 @@ defineExpose({
         @select="onSelect"
     />
 
-    <div v-if="activeGap" :class="styles.gapText__panel">
-      <div :class="styles.gapText__options">
-        <button
-            v-for="option in shuffledOptions[activeGap.index]"
-            :key="option"
-            :class="styles.gapText__option"
-            type="button"
-            @click="onChoose( option )"
-        >{{ getOptionLabel( option, activeGap.options ) }}</button>
-      </div>
+    <Teleport :disabled="!props.panelTarget" :to="props.panelTarget">
+      <div v-if="activeGap || hasNav" :class="styles.gapText__panel">
+        <div v-if="hasNav" :class="styles.gapText__nav">
+          <div :class="styles.gapText__counter">
+            Заполнено {{ filledCount }} из {{ gaps.length }}
+          </div>
+        </div>
 
-      <button
-          v-if="activeGap.ruleId"
-          :class="styles.gapText__why"
-          type="button"
-          @click="onWhy"
-      >
-        Почему так?
-      </button>
-    </div>
+        <div :class="styles.gapText__row">
+          <button
+              v-if="hasNav"
+              :class="styles.gapText__arrow"
+              :disabled="prevIndex === -1"
+              aria-label="Предыдущий пропуск"
+              type="button"
+              @click="onSelect( prevIndex )"
+          >
+            <ion-icon :icon="chevronBack" />
+          </button>
+
+          <div v-if="activeGap" :class="styles.gapText__options">
+            <button
+                v-for="option in shuffledOptions[activeGap.index]"
+                :key="option"
+                :class="styles.gapText__option"
+                type="button"
+                @click="onChoose( option )"
+            >{{ getOptionLabel( option, activeGap.options ) }}</button>
+          </div>
+
+          <button
+              v-if="hasNav"
+              :class="styles.gapText__arrow"
+              :disabled="nextIndex === -1"
+              aria-label="Следующий пропуск"
+              type="button"
+              @click="onSelect( nextIndex )"
+          >
+            <ion-icon :icon="chevronForward" />
+          </button>
+        </div>
+
+        <button
+            v-if="activeGap?.ruleId"
+            :class="styles.gapText__why"
+            type="button"
+            @click="onWhy"
+        >
+          Почему так?
+        </button>
+      </div>
+    </Teleport>
 
     <ion-modal
         :breakpoints="[ 0, 0.4, 0.8 ]"

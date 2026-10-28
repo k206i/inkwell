@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import styles from './paperSheet.module.scss';
 import { groupWords, type TGap, type TGapResult, type TTextPart, type TWordChunk } from '@/composables/parseGaps';
 
@@ -35,6 +35,13 @@ const setGapElement = ( index: number, element: unknown ) => {
   }
 };
 
+// Курсор докручиваем, только если он ушёл за край текста, а пропуск под кареткой держим посередине
+const scrollToGap = ( index: number, block: ScrollLogicalPosition ) => {
+  gapElements[index]?.scrollIntoView({ block, behavior: 'smooth' });
+};
+
+watch( () => props.active, ( index: number ) => scrollToGap( index, 'nearest' ));
+
 const wait = ( ms: number ): Promise< void > => new Promise( ( resolve ) => window.setTimeout( resolve, ms ));
 
 const moveHeadTo = async ( index: number ): Promise< void > => {
@@ -47,6 +54,7 @@ const moveHeadTo = async ( index: number ): Promise< void > => {
   headX.value = element.offsetLeft + element.offsetWidth / 2;
   headY.value = element.offsetTop + element.offsetHeight / 2;
   isParked.value = false;
+  scrollToGap( index, 'center' );
 
   await wait( step.value );
 };

@@ -20,6 +20,7 @@ const route = useRoute();
 const passage = ref< TPassage | null >( null );
 const isLoaded = ref< boolean >( false );
 const gapText = ref< InstanceType< typeof GapText > | null >( null );
+const panel = ref< HTMLElement | null >( null );
 const drafts = ref< ( string | null )[] >( [] );
 const results = ref< TGapResult[] >( [] );
 const isPrinting = ref< boolean >( false );
@@ -133,35 +134,44 @@ const onPrint = async () => {
   <ion-page>
     <AppHeader page-name="Реставрация" />
 
-    <ion-content :fullscreen="true" class="ion-padding">
-      <p v-if="isLoaded && !passage">Абзац не найден.</p>
+    <ion-content :fullscreen="true" :scroll-y="false">
+      <div :class="styles.restorePage">
+        <div :class="styles.restorePage__text">
+          <p v-if="isLoaded && !passage">Абзац не найден.</p>
 
-      <template v-if="passage">
-        <div :class="styles.restorePage__title">
-          {{ source?.book?.title }}
+          <template v-if="passage">
+            <div :class="styles.restorePage__title">
+              {{ source?.book?.title }}
+            </div>
+
+            <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
+              Повтор: чернила не тратятся.
+            </p>
+
+            <p v-if="missingInk > 0" :class="styles.restorePage__notice">
+              Для этого абзаца не хватает {{ missingInk }} {{ declineUnit( missingInk, 'drop' ) }}.
+              <router-link to="/machine">К автомату чернил</router-link>
+            </p>
+
+            <template v-else>
+              <GapText
+                  ref="gapText"
+                  :key="attempt"
+                  v-model:drafts="drafts"
+                  v-model:results="results"
+                  carriage
+                  :disabled="isPrinting || status === 'archived'"
+                  :panel-target="panel"
+                  :text="passage.text"
+              />
+
+              <p :class="styles.restorePage__source">{{ source?.author?.short }}, «{{ source?.book?.title }}»</p>
+            </template>
+          </template>
         </div>
 
-        <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
-          Повтор: чернила не тратятся.
-        </p>
-
-        <p v-if="missingInk > 0" :class="styles.restorePage__notice">
-          Для этого абзаца не хватает {{ missingInk }} {{ declineUnit( missingInk, 'drop' ) }}.
-          <router-link to="/machine">К автомату чернил</router-link>
-        </p>
-
-        <template v-else>
-          <GapText
-              ref="gapText"
-              :key="attempt"
-              v-model:drafts="drafts"
-              v-model:results="results"
-              carriage
-              :disabled="isPrinting || status === 'archived'"
-              :text="passage.text"
-          />
-
-          <p :class="styles.restorePage__source">{{ source?.author?.short }}, «{{ source?.book?.title }}»</p>
+        <div v-if="passage && missingInk === 0" :class="styles.restorePage__panel">
+          <div ref="panel" />
 
           <div :class="styles.restorePage__actions">
             <template v-if="status === 'archived'">
@@ -196,8 +206,8 @@ const onPrint = async () => {
               </button>
             </template>
           </div>
-        </template>
-      </template>
+        </div>
+      </div>
     </ion-content>
   </ion-page>
 </template>

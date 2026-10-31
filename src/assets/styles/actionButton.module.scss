@@ -11,4 +11,14 @@
   &:disabled {
     opacity: .4;
   }
+
+  &_dashed {
+    color: var( --ink-color-font-low );
+    background: transparent;
+    border: 1px dashed var( --ink-color-theme-border );
+
+    &:disabled {
+      opacity: 1;
+    }
+  }
 }

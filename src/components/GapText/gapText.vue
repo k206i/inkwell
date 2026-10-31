@@ -4,16 +4,19 @@ import { chevronBack, chevronForward } from 'ionicons/icons';
 import { computed, ref, watch } from 'vue';
 import styles from './gapText.module.scss';
 import PaperSheet from '@/components/PaperSheet/paperSheet.vue';
+import VisorEmotion from '@/components/Visor/visorEmotion.vue';
+import UiProgressBar from '@/components/Ui/ProgressBar/uiProgressBar.vue';
 import { getGaps, getOptionLabel, parseGaps, type TGap, type TGapResult, type TTextPart } from '@/composables/parseGaps';
 import { shuffle } from '@/composables/shuffle';
-import { getRuleById } from '@/api/getRuleById';
-import type { TRule } from '@/api/getRules';
+import { getRules, type TRule } from '@/api/getRules';
 
 const props = defineProps<{
   text: string,
   carriage?: boolean,
   disabled?: boolean, // во время печати выбор закрыт
   panelTarget?: HTMLElement | null,
+  phrase?: string, // реплика Саэ в облачке, когда активного пропуска нет
+  finished?: boolean, // абзац восстановлен: стрелки и клавиши больше не нужны
 }>();
 
 // null — пропуск ещё не заполнен
@@ -28,6 +31,13 @@ const active = ref< number >( 0 );
 const activeGap = computed( (): TGap | null => props.disabled ? null : gaps.value[active.value] ?? null );
 const hintRule = ref< TRule | null >( null );
 const isHintOpen = ref< boolean >( false );
+const rules = ref< TRule[] >( [] );
+
+getRules().then( ( result: TRule[] ) => {
+  rules.value = result;
+});
+
+const activeRule = computed( (): TRule | null => rules.value.find( ( rule: TRule ) => rule.id === activeGap.value?.ruleId ) ?? null );
 
 // Открыт для выбора пустой пропуск и напечатанный с ошибкой
 const isOpen = ( index: number, draftList: ( string | null )[], resultList: TGapResult[] ): boolean => {
@@ -62,8 +72,10 @@ const findSelectable = ( from: number, direction: number ): number => {
 // Без курсора стрелки ведут к последнему и первому доступному пропуску
 const prevIndex = computed( (): number => findSelectable( ( active.value === -1 ? gaps.value.length : active.value ) - 1, -1 ));
 const nextIndex = computed( (): number => findSelectable( active.value + 1, 1 ));
-const hasNav = computed( (): boolean => !props.disabled && gaps.value.length > 1 );
+// Во время печати стрелки не убираем, а гасим: иначе закреплённая панель прыгает по высоте
+const hasNav = computed( (): boolean => gaps.value.length > 1 );
 const filledCount = computed( (): number => drafts.value.filter( ( draft: string | null ) => draft !== null ).length );
+const isFilled = computed( (): boolean => filledCount.value === gaps.value.length );
 
 watch( () => props.text, () => {
   active.value = 0;
@@ -98,12 +110,8 @@ const onChoose = ( option: string ) => {
   active.value = findOpen( active.value + 1, nextDrafts, nextResults );
 };
 
-const onWhy = async () => {
-  if ( !activeGap.value ) {
-    return;
-  }
-
-  hintRule.value = await getRuleById( activeGap.value.ruleId );
+const onRule = () => {
+  hintRule.value = activeRule.value;
   isHintOpen.value = hintRule.value !== null;
 };
 
@@ -126,18 +134,49 @@ defineExpose({
     />
 
     <Teleport :disabled="!props.panelTarget" :to="props.panelTarget">
-      <div v-if="activeGap || hasNav" :class="styles.gapText__panel">
-        <div v-if="hasNav" :class="styles.gapText__nav">
-          <div :class="styles.gapText__counter">
-            Заполнено {{ filledCount }} из {{ gaps.length }}
+      <div :class="styles.gapText__panel">
+        <div :class="styles.gapText__sae">
+          <div :class="styles.gapText__mascot">
+            <img
+                :class="styles.gapText__mascotImage"
+                src="@/assets/img/saelian/saelian_min.webp"
+                alt="Саэлиан"
+            />
+
+            <div :class="styles.gapText__visor">
+              <VisorEmotion :emotion="props.finished ? 'delight' : isFilled ? 'smile' : 'interest'" />
+            </div>
+          </div>
+
+          <div :class="styles.gapText__hint">
+            <UiProgressBar
+                :class="[ styles.gapText__progressBar, { [styles.gapText__progressBar_finished]: props.finished } ]"
+                :total="gaps.length"
+                :value="filledCount"
+            />
+
+            <button
+                v-if="activeRule"
+                :class="styles.gapText__cloud"
+                type="button"
+                @click="onRule"
+            >
+              <span :class="styles.gapText__ruleSign" aria-hidden="true">§</span>
+              <span :class="styles.gapText__ruleTitle">{{ activeRule.title }}</span>
+              <ion-icon :class="styles.gapText__ruleArrow" :icon="chevronForward" />
+            </button>
+
+            <div v-else-if="!activeGap && props.phrase" :class="styles.gapText__cloud">
+              {{ props.phrase }}
+            </div>
           </div>
         </div>
 
-        <div :class="styles.gapText__row">
+        <div v-if="!props.finished && ( activeGap || hasNav )" :class="styles.gapText__row">
           <button
               v-if="hasNav"
               :class="styles.gapText__arrow"
-              :disabled="prevIndex === -1"
+              :disabled="props.disabled || prevIndex === -1"
               aria-label="Предыдущий пропуск"
               type="button"
               @click="onSelect( prevIndex )"
@@ -158,7 +197,7 @@ defineExpose({
           <button
               v-if="hasNav"
               :class="styles.gapText__arrow"
-              :disabled="nextIndex === -1"
+              :disabled="props.disabled || nextIndex === -1"
               aria-label="Следующий пропуск"
               type="button"
               @click="onSelect( nextIndex )"
@@ -166,15 +205,6 @@ defineExpose({
             <ion-icon :icon="chevronForward" />
           </button>
         </div>
-
-        <button
-            v-if="activeGap?.ruleId"
-            :class="styles.gapText__why"
-            type="button"
-            @click="onWhy"
-        >
-          Почему так?
-        </button>
       </div>
     </Teleport>
 

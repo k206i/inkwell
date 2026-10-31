@@ -7,18 +7,100 @@
     margin-top: var( --ink-size-gap );
   }
 
-  &__nav {
+  &__sae {
     display: flex;
     align-self: stretch;
     align-items: center;
-    justify-content: space-between;
-    gap: var( --ink-size-gap );
+    gap: var( --ink-size-gap-s );
   }
 
-  &__counter {
-    font-size: 17px;
-    font-weight: 500;
-    color: var( --ink-color-font-accent );
+  &__mascot {
+    position: relative;
+    flex-shrink: 0;
+    width: 88px;
+    height: 76px;
+    overflow: hidden;
+    mask-image: linear-gradient( to bottom, var( --ink-color-black ) 78%, transparent );
+  }
+
+  &__mascotImage {
+    position: absolute;
+    top: 0;
+    left: -12px;
+    width: 113px;
+  }
+
+  &__visor {
+    position: absolute;
+    top: 19px;
+    left: 25px;
+    width: 30px;
+    aspect-ratio: 140 / 100;
+  }
+
+  &__hint {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: var( --ink-size-gap-s );
+    min-width: 0;
+  }
+
+  &__progressBar {
+    height: 6px;
+    color: var( --ink-color-progress );
+  }
+
+  &__progressBar_finished {
+    color: var( --ink-color-theme );
+  }
+
+  &__cloud {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var( --ink-size-gap-s );
+    min-height: 44px;
+    padding: var( --ink-size-gap-xs ) var( --ink-size-gap-s ) var( --ink-size-gap-xs ) var( --ink-size-gap );
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.25;
+    text-align: left;
+    color: var( --ink-color-font );
+    background: color-mix( in srgb, var( --ink-color-theme-dark ), var( --ink-color-theme ) 6% );
+    border: 1px solid var( --ink-color-theme-border );
+    border-radius: var( --ink-size-border-radius );
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -6px;
+      width: 10px;
+      height: 10px;
+      margin-top: -6px;
+      background: inherit;
+      border-bottom: inherit;
+      border-left: inherit;
+      transform: rotate( 45deg );
+    }
+  }
+
+  &__ruleSign {
+    flex-shrink: 0;
+    font-family: var( --ink-font-paper );
+    font-size: 20px;
+    color: var( --ink-color-theme );
+  }
+
+  &__ruleTitle {
+    flex-grow: 1;
+  }
+
+  &__ruleArrow {
+    flex-shrink: 0;
+    font-size: 16px;
+    color: var( --ink-color-theme );
   }
 
   &__row {
@@ -61,20 +143,17 @@
     min-height: var( --ink-input-height-s );
     padding: 0 var( --ink-size-gap );
     font-size: 18px;
-    color: var( --ink-color-font );
-    background: var( --ink-color-theme-dark );
-    border: 1px solid var( --ink-color-theme-border );
+    color: var( --ink-color-paper-font );
+    background: var( --ink-color-paper );
+    border-style: solid;
+    border-color: #8d805c;
+    border-width: 1px 1px 5px;
     border-radius: var( --ink-size-border-radius-s );
-  }
+    transition: var( --ink-transition-border );
 
-  &__why {
-    padding: 0;
-    font: inherit;
-    font-size: 14px;
-    color: var( --ink-color-theme );
-    text-decoration: underline;
-    background: none;
-    border: none;
+    &:active {
+      border-bottom-width: 1px;
+    }
   }
 
   &__hintTitle {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { IonContent, IonPage, onIonViewWillEnter } from '@ionic/vue';
+import { IonContent, IonIcon, IonPage, onIonViewWillEnter } from '@ionic/vue';
+import { waterOutline } from 'ionicons/icons';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import styles from './restorePage.module.scss';
@@ -63,6 +64,32 @@ onIonViewWillEnter( () => {
 const hasPrinted = computed( (): boolean => results.value.some( ( result: TGapResult ) => result !== null ));
 const printCost = computed( (): number => results.value.filter( ( result: TGapResult ) => result === null ).length );
 const errorCount = computed( (): number => results.value.filter( ( result: TGapResult ) => result === 'wrong' ).length );
+const emptyCount = computed( (): number => drafts.value.filter( ( draft: string | null ) => draft === null ).length );
+
+// «Остался 1 пропуск», «Осталось 3 пропуска»
+const remainingLabel = computed( (): string => {
+  const count: number = emptyCount.value;
+  const verb: string = count % 10 === 1 && count % 100 !== 11 ? 'Остался' : 'Осталось';
+
+  return `${ verb } ${ count } ${ declineUnit( count, 'gap' ) }`;
+});
+
+// Реплика Саэ в облачке, пока активного пропуска нет
+const saePhrase = computed( (): string | undefined => {
+  if ( isPrinting.value ) {
+    return 'Печатаю…';
+  }
+
+  if ( status.value === 'archived' ) {
+    return isTokenEarned.value ? 'Готово! Абзац в архиве.' : 'Готово, абзац снова в архиве.';
+  }
+
+  if ( status.value === 'noInk' ) {
+    return 'Чернил не хватит. Начнём заново?';
+  }
+
+  return emptyCount.value === 0 ? 'Печатаем?' : undefined;
+});
 
 // Повтор абзаца из архива — чистая практика без жетона, поэтому и чернила на него не тратятся
 const isReplay = computed( (): boolean => passage.value ? appStore.restoredPassages.includes( passage.value.id ) : false );
@@ -161,7 +188,9 @@ const onPrint = async () => {
                   v-model:results="results"
                   carriage
                   :disabled="isPrinting || status === 'archived'"
+                  :finished="status === 'archived'"
                   :panel-target="panel"
+                  :phrase="saePhrase"
                   :text="passage.text"
               />
 
@@ -175,9 +204,20 @@ const onPrint = async () => {
 
           <div :class="styles.restorePage__actions">
             <template v-if="status === 'archived'">
-              <p v-if="isTokenEarned" :class="styles.restorePage__notice">Абзац отправлен в архив. Жетон знания +1.</p>
-              <p v-else :class="styles.restorePage__notice">Абзац снова восстановлен. Жетон за него уже получен.</p>
-              <router-link to="/catalog">К каталогу</router-link>
+              <div :class="styles.restorePage__token">
+                <span
+                    :class="[ styles.restorePage__tokenCoin, { [styles.restorePage__tokenCoin_received]: !isTokenEarned } ]"
+                    aria-hidden="true"
+                >§</span>
+
+                <span :class="[ styles.restorePage__tokenText, { [styles.restorePage__tokenText_received]: !isTokenEarned } ]">
+                  {{ isTokenEarned ? 'Жетон знания +1' : 'Жетон знания уже получен' }}
+                </span>
+              </div>
+
+              <router-link :class="[ actionButton.actionButton, styles.restorePage__print ]" to="/catalog">
+                К каталогу
+              </router-link>
             </template>
 
             <template v-else-if="status === 'noInk'">
@@ -192,17 +232,37 @@ const onPrint = async () => {
             </template>
 
             <template v-else>
-              <p v-if="status === 'errors'" :class="styles.restorePage__notice">
-                Ошибок: {{ errorCount }}. Исправь их и отдай на печать снова.
-              </p>
+              <button
+                  v-if="emptyCount > 0"
+                  :class="[ actionButton.actionButton, actionButton.actionButton_dashed, styles.restorePage__print ]"
+                  disabled
+                  type="button"
+              >
+                {{ remainingLabel }}
+              </button>
 
               <button
-                  :class="actionButton.actionButton"
+                  v-else-if="errorCount > 0"
+                  :class="[ actionButton.actionButton, actionButton.actionButton_dashed, styles.restorePage__print ]"
+                  disabled
+                  type="button"
+              >
+                Исправь ошибки: {{ errorCount }}
+              </button>
+
+              <button
+                  v-else
+                  :class="[ actionButton.actionButton, styles.restorePage__print ]"
                   :disabled="!isReady"
                   type="button"
                   @click="onPrint"
               >
-                Отдать на печать
+                Вписать набело
+
+                <span v-if="!isReplay" :class="styles.restorePage__price">
+                  <ion-icon :icon="waterOutline" />
+                  {{ printCost }}
+                </span>
               </button>
             </template>
           </div>

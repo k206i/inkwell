@@ -46,6 +46,57 @@
     gap: var( --ink-size-gap-s );
   }
 
+  &__print {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var( --ink-size-gap-s );
+    width: 100%;
+    text-decoration: none;
+  }
+
+  &__token {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var( --ink-size-gap );
+    height: var( --ink-input-height-s );
+  }
+
+  &__tokenCoin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-family: var( --ink-font-paper );
+    font-size: 22px;
+    color: var( --ink-color-stamp );
+    background: radial-gradient( circle at 35% 30%, var( --ink-color-gold ), color-mix( in srgb, var( --ink-color-gold ), black 35% ));
+    border-radius: 50%;
+    box-shadow: 0 0 16px rgba( 227, 201, 131, .35 );
+  }
+
+  &__tokenCoin_received {
+    opacity: .3;
+  }
+
+  &__tokenText {
+    font-size: 17px;
+    font-weight: 500;
+    color: var( --ink-color-gold );
+  }
+
+  &__tokenText_received {
+    color: var( --ink-color-font-low );
+  }
+
+  &__price {
+    display: inline-flex;
+    align-items: center;
+    gap: var( --ink-size-gap-xxs );
+  }
+
   &__replay {
     margin-bottom: var( --ink-size-gap );
   }

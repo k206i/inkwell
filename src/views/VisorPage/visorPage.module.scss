@@ -27,7 +27,7 @@
     box-sizing: border-box;
     width: 100%;
     padding: 8%;
-    aspect-ratio: 140 / 100;
+    aspect-ratio: var( --ink-aspect-ratio-visor );
     border-radius: 50%;
     background: var( --ink-color-black );
   }

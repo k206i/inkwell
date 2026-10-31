@@ -7,7 +7,7 @@ import styles from './restorePage.module.scss';
 import actionButton from '@/assets/styles/actionButton.module.scss';
 import AppHeader from '@/components/AppHeader/appHeader.vue';
 import InkLevel from '@/components/InkLevel/inkLevel.vue';
-import GapText from '@/components/GapText/gapText.vue';
+import GapText, { type TSaePhrase } from '@/components/GapText/gapText.vue';
 import { getPassageById } from '@/api/getPassageById';
 import type { TPassage } from '@/api/getPassages';
 import { getAuthors, getPassageSource, type TAuthor, type TPassageSource } from '@/api/getAuthors';
@@ -75,20 +75,20 @@ const remainingLabel = computed( (): string => {
 });
 
 // Реплика Саэ в облачке, пока активного пропуска нет
-const saePhrase = computed( (): string | undefined => {
+const saePhrase = computed( (): TSaePhrase | undefined => {
   if ( isPrinting.value ) {
-    return 'Печатаю…';
+    return { text: 'Печатаю…' };
   }
 
   if ( status.value === 'archived' ) {
-    return isTokenEarned.value ? 'Готово! Абзац в архиве.' : 'Готово, абзац снова в архиве.';
+    return { text: isTokenEarned.value ? 'Готово! Абзац в архиве.' : 'Готово, абзац снова в архиве.' };
   }
 
   if ( status.value === 'noInk' ) {
-    return 'Чернил не хватит. Начнём заново?';
+    return { text: 'Чернил не хватит. Начнём заново?' };
   }
 
-  return emptyCount.value === 0 ? 'Печатаем?' : undefined;
+  return emptyCount.value === 0 ? { text: 'Печатаем?', emotion: 'curiosity' } : undefined;
 });
 
 // Повтор абзаца из архива — чистая практика без жетона, поэтому и чернила на него не тратятся

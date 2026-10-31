@@ -1,3 +1,12 @@
+<script lang="ts">
+import type { TVisorEmotion } from '@/components/Visor/visorFaces';
+
+export type TSaePhrase = {
+  text: string,
+  emotion?: TVisorEmotion,
+};
+</script>
+
 <script setup lang="ts">
 import { IonContent, IonIcon, IonModal } from '@ionic/vue';
 import { chevronBack, chevronForward } from 'ionicons/icons';
@@ -15,7 +24,7 @@ const props = defineProps<{
   carriage?: boolean,
   disabled?: boolean, // во время печати выбор закрыт
   panelTarget?: HTMLElement | null,
-  phrase?: string, // реплика Саэ в облачке, когда активного пропуска нет
+  phrase?: TSaePhrase, // реплика Саэ в облачке, когда активного пропуска нет
   finished?: boolean, // абзац восстановлен: стрелки и клавиши больше не нужны
 }>();
 
@@ -76,6 +85,23 @@ const nextIndex = computed( (): number => findSelectable( active.value + 1, 1 ))
 const hasNav = computed( (): boolean => gaps.value.length > 1 );
 const filledCount = computed( (): number => drafts.value.filter( ( draft: string | null ) => draft !== null ).length );
 const isFilled = computed( (): boolean => filledCount.value === gaps.value.length );
+const shownPhrase = computed( (): TSaePhrase | null => activeGap.value ? null : props.phrase ?? null );
+
+const emotion = computed( (): TVisorEmotion => {
+  if ( shownPhrase.value?.emotion ) {
+    return shownPhrase.value.emotion;
+  }
+
+  if ( props.finished ) {
+    return 'love';
+  }
+
+  if ( !props.disabled && results.value.includes( 'wrong' )) {
+    return 'confusion';
+  }
+
+  return isFilled.value ? 'smile' : 'interest';
+});
 
 watch( () => props.text, () => {
   active.value = 0;
@@ -135,6 +161,13 @@ defineExpose({
 
     <Teleport :disabled="!props.panelTarget" :to="props.panelTarget">
       <div :class="styles.gapText__panel">
+        <UiProgressBar
+            v-if="false"
+            :class="[ styles.gapText__progressBar, { [styles.gapText__progressBar_finished]: props.finished } ]"
+            :total="gaps.length"
+            :value="filledCount"
+        />
+
         <div :class="styles.gapText__sae">
           <div :class="styles.gapText__mascot">
             <img
@@ -144,17 +177,11 @@ defineExpose({
             />
 
             <div :class="styles.gapText__visor">
-              <VisorEmotion :emotion="props.finished ? 'delight' : isFilled ? 'smile' : 'interest'" />
+              <VisorEmotion :emotion="emotion" />
             </div>
           </div>
 
           <div :class="styles.gapText__hint">
-            <UiProgressBar
-                :class="[ styles.gapText__progressBar, { [styles.gapText__progressBar_finished]: props.finished } ]"
-                :total="gaps.length"
-                :value="filledCount"
-            />
-
             <button
                 v-if="activeRule"
                 :class="styles.gapText__cloud"
@@ -166,8 +193,8 @@ defineExpose({
               <ion-icon :class="styles.gapText__ruleArrow" :icon="chevronForward" />
             </button>
 
-            <div v-else-if="!activeGap && props.phrase" :class="styles.gapText__cloud">
-              {{ props.phrase }}
+            <div v-else-if="shownPhrase" :class="styles.gapText__cloud">
+              {{ shownPhrase.text }}
             </div>
           </div>
         </div>

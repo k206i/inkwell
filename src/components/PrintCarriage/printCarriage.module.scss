@@ -1,0 +1,122 @@
+.printCarriage {
+  --brass: #b08a43;
+  --brass-light: #e8cf8e;
+  --brass-highlight: #f0dda4;
+  --brass-pale: #ecd9a0;
+  --brass-deep: #8a6a2e;
+  --brass-dark: #6e5426;
+  --brass-shadow: #5e4720;
+  // Стоянка у чернильницы, пока moveTo не задал точку пропуска
+  --x: calc( 100% - 2 * var( --ink-size-side-indent ) - 27px );
+  --y: 6px;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  margin-left: calc( -1 * var( --ink-size-side-indent ));
+  pointer-events: none;
+
+  &__rail {
+    position: absolute;
+    top: -30px;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient( 90deg, var( --brass-shadow ), var( --brass-light ) 40%, var( --brass ) 65%, var( --brass-shadow ));
+    border-radius: 3px;
+
+    &_left {
+      left: calc( var( --ink-size-side-indent ) - 12px );
+    }
+
+    &_right {
+      right: calc( var( --ink-size-side-indent ) - 12px );
+    }
+  }
+
+  // Шаг рисок равен высоте строки листа
+  &__ticks {
+    position: absolute;
+    top: var( --ink-size-gap );
+    bottom: var( --ink-size-gap );
+    width: 3px;
+    background: repeating-linear-gradient( 180deg, transparent 0 18px, var( --brass ) 18px 20px, transparent 20px 38px );
+
+    &_left {
+      left: calc( var( --ink-size-side-indent ) - 5px );
+    }
+
+    &_right {
+      right: calc( var( --ink-size-side-indent ) - 5px );
+    }
+  }
+
+  &__bar {
+    position: absolute;
+    top: calc( var( --y ) - 21px );
+    right: calc( var( --ink-size-side-indent ) - 10px );
+    left: calc( var( --ink-size-side-indent ) - 10px );
+    height: 4px;
+    background: linear-gradient( 180deg, var( --brass-highlight ), var( --brass ) 60%, var( --brass-dark ));
+    border-radius: 2px;
+    box-shadow: 0 4px 5px -1px rgba( 45, 30, 10, .35 );
+    transition: top var( --step ) ease-in-out;
+  }
+
+  &__slider {
+    position: absolute;
+    top: -4px;
+    width: 14px;
+    height: 12px;
+    background: linear-gradient( 180deg, var( --brass-pale ), var( --brass-deep ));
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba( 0, 0, 0, .5 );
+
+    &_left {
+      left: -6px;
+    }
+
+    &_right {
+      right: -6px;
+    }
+  }
+
+  &__ring {
+    position: absolute;
+    top: calc( var( --y ) - 17px );
+    left: calc( var( --x ) + var( --ink-size-side-indent ) - 17px );
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    border: 2px solid color-mix( in srgb, var( --ink-color-ink ) 60%, transparent );
+    border-radius: 50%;
+    box-shadow: 0 0 10px color-mix( in srgb, var( --ink-color-ink ) 35%, transparent );
+    opacity: 0;
+  }
+
+  &__head {
+    position: absolute;
+    top: calc( var( --y ) - 42px );
+    left: calc( var( --x ) + var( --ink-size-side-indent ) - 9px );
+    width: 18px;
+    height: 30px;
+    filter: drop-shadow( 0 2px 2px rgba( 45, 30, 10, .35 ));
+    transition:
+            top var( --step ) ease-in-out,
+            left var( --step ) ease-in-out,
+            transform var( --lift ) ease-in-out;
+
+    &_raised {
+      transform: translateY( -14px );
+    }
+  }
+
+  &__inkwell {
+    position: absolute;
+    top: -16px;
+    right: calc( var( --ink-size-side-indent ) + 14px );
+    width: 26px;
+    height: 20px;
+  }
+}

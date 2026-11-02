@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import styles from './paperSheet.module.scss';
+import PrintCarriage from '@/components/PrintCarriage/printCarriage.vue';
 import { groupWords, type TGap, type TGapResult, type TTextPart, type TWordChunk } from '@/composables/parseGaps';
 
 const props = defineProps<{
@@ -21,9 +22,7 @@ const STEP_MAX: number = 450;
 const STEP_TOTAL: number = 6000;
 
 const gapElements: HTMLElement[] = [];
-const headX = ref< number >( 0 );
-const headY = ref< number >( 0 );
-const isParked = ref< boolean >( true );
+const printCarriage = ref< InstanceType< typeof PrintCarriage > | null >( null );
 
 const words = computed( (): TWordChunk[] => groupWords( props.parts ));
 const gapCount = computed( (): number => props.parts.filter( ( part: TTextPart ) => part.kind === 'gap' ).length );
@@ -47,8 +46,6 @@ const scrollToGap = ( index: number, block: ScrollLogicalPosition ) => {
 
 watch( () => props.active, ( index: number ) => scrollToGap( index, 'nearest' ));
 
-const wait = ( ms: number ): Promise< void > => new Promise( ( resolve ) => window.setTimeout( resolve, ms ));
-
 const moveHeadTo = async ( index: number ): Promise< void > => {
   const element: HTMLElement | undefined = gapElements[index];
 
@@ -56,21 +53,16 @@ const moveHeadTo = async ( index: number ): Promise< void > => {
     return;
   }
 
-  headX.value = element.offsetLeft + element.offsetWidth / 2;
-  headY.value = element.offsetTop + element.offsetHeight / 2;
-  isParked.value = false;
   scrollToGap( index, 'center' );
 
-  await wait( step.value );
+  await printCarriage.value?.moveTo( element.offsetLeft + element.offsetWidth / 2, element.offsetTop + element.offsetHeight / 2 );
 };
 
-const parkHead = async (): Promise< void > => {
-  isParked.value = true;
-
-  await wait( step.value );
-};
-
-defineExpose({ moveHeadTo, parkHead });
+defineExpose({
+  moveHeadTo,
+  parkHead: (): Promise< void > => printCarriage.value?.park() ?? Promise.resolve(),
+  strike: ( isWrong: boolean ): Promise< void > => printCarriage.value?.strike( isWrong ) ?? Promise.resolve(),
+});
 
 const gapClass = ( gap: TGap ): string[] => {
   const draft: string | null = props.drafts[gap.index] ?? null;
@@ -116,7 +108,7 @@ const gapLabel = ( gap: TGap ): string => {
 </script>
 
 <template>
-  <div :class="styles.paperSheet" :style="{ '--step': `${ step }ms` }">
+  <div :class="[ styles.paperSheet, { [styles.paperSheet_carriage]: props.carriage } ]">
     <p :class="styles.paperSheet__text">
       <template v-for="( chunk, index ) in words" :key="index">
         <template v-if="chunk.kind === 'space'">{{ chunk.value }}</template>
@@ -136,13 +128,6 @@ const gapLabel = ( gap: TGap ): string => {
       </template>
     </p>
 
-    <div v-if="props.carriage" :class="styles.paperSheet__carriage" aria-hidden="true">
-      <span :class="[ styles.paperSheet__rail, styles.paperSheet__rail_left ]" />
-      <span :class="[ styles.paperSheet__rail, styles.paperSheet__rail_right ]" />
-
-      <span :class="styles.paperSheet__bar" :style="{ top: isParked ? '0px' : `${ headY }px` }">
-        <span :class="styles.paperSheet__head" :style="{ left: isParked ? '50%' : `${ headX }px` }" />
-      </span>
-    </div>
+    <PrintCarriage v-if="props.carriage" ref="printCarriage" :step="step" />
   </div>
 </template>

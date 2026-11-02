@@ -141,6 +141,8 @@ const onPrint = async () => {
       printedGaps.add( gap.index );
       recordAnswer( gap.ruleId, result === 'right', true );
     }
+
+    await gapText.value?.strike( result === 'wrong' );
   }
 
   await gapText.value?.parkHead();

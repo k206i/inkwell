@@ -144,6 +144,7 @@ const onRule = () => {
 defineExpose({
   moveHeadTo: ( index: number ): Promise< void > => sheet.value?.moveHeadTo( index ) ?? Promise.resolve(),
   parkHead: (): Promise< void > => sheet.value?.parkHead() ?? Promise.resolve(),
+  strike: ( isWrong: boolean ): Promise< void > => sheet.value?.strike( isWrong ) ?? Promise.resolve(),
 });
 </script>
 

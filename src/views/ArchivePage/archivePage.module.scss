@@ -18,8 +18,8 @@
     font-size: 19px;
     line-height: 1.8;
     color: var( --ink-color-paper-font );
-    background: var( --ink-color-paper );
-    border-radius: var( --ink-size-border-radius-s );
+    background: url( '@/assets/img/environment/paper-bg.webp' ) no-repeat 0 0;
+    background-size: 100% 100%;
   }
 
   &__source {

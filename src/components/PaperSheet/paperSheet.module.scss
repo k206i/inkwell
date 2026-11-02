@@ -1,7 +1,12 @@
 .paperSheet {
   position: relative;
-  background: var( --ink-color-paper );
+  background: url( '@/assets/img/environment/paper-bg.webp' ) no-repeat 0 0;
+  background-size: 100% 100%;
   border-radius: var( --ink-size-border-radius-s );
+
+  &_carriage {
+    margin-top: 30px;
+  }
 
   &__text {
     margin: 0;
@@ -64,55 +69,5 @@
               inset 0 0 10px var( --ink-color-theme ),
               0 0 10px var( --ink-color-theme );
     }
-  }
-
-  &__carriage {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    pointer-events: none;
-  }
-
-  &__rail {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 8px;
-    background: var( --ink-color-theme-dark );
-    opacity: .6;
-  }
-
-  &__rail_left {
-    left: 0;
-    border-radius: var( --ink-size-border-radius-s ) 0 0 var( --ink-size-border-radius-s );
-  }
-
-  &__rail_right {
-    right: 0;
-    border-radius: 0 var( --ink-size-border-radius-s ) var( --ink-size-border-radius-s ) 0;
-  }
-
-  &__bar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var( --ink-color-theme-dark );
-    transform: translateY( -50% );
-    transition: top var( --step ) ease-in-out;
-  }
-
-  &__head {
-    position: absolute;
-    top: 50%;
-    width: 18px;
-    height: 18px;
-    background: var( --ink-color-ink );
-    border: 2px solid var( --ink-color-theme-dark );
-    border-radius: 50%;
-    transform: translate( -50%, -50% );
-    transition: left var( --step ) ease-in-out;
   }
 }

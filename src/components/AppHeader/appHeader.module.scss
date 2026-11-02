@@ -1,6 +1,7 @@
 .appHeader {
   flex-direction: row;
   justify-content: space-between;
+  box-shadow: 0 5px 24px var( --ink-color-theme-dark );
 
   &__title {
     display: flex;

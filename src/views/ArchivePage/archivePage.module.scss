@@ -13,7 +13,7 @@
 
   &__paper {
     margin: 0;
-    padding: var( --ink-size-gap );
+    padding: var( --ink-size-gap ) var( --ink-size-gap-l );
     font-family: var( --ink-font-paper );
     font-size: 19px;
     line-height: 1.8;

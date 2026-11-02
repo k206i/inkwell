@@ -259,7 +259,12 @@ const onPrint = async () => {
                   type="button"
                   @click="onPrint"
               >
-                Вписать набело
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 5v6a3 3 0 0 1-3 3H6"></path>
+                  <path d="M10 10l-4 4 4 4"></path>
+                </svg>
+
+                Напечатать
 
                 <span v-if="!isReplay" :class="styles.restorePage__price">
                   <ion-icon :icon="waterOutline" />

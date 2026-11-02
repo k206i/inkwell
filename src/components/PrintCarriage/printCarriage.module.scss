@@ -8,7 +8,7 @@
   --brass-shadow: #5e4720;
   // Стоянка у чернильницы, пока moveTo не задал точку пропуска
   --x: calc( 100% - 2 * var( --ink-size-side-indent ) - 27px );
-  --y: 6px;
+  --y: calc( 100% + 40px );
 
   position: absolute;
   top: 0;
@@ -20,8 +20,8 @@
 
   &__rail {
     position: absolute;
-    top: -30px;
-    bottom: 0;
+    top: 0;
+    bottom: -40px;
     width: 6px;
     background: linear-gradient( 90deg, var( --brass-shadow ), var( --brass-light ) 40%, var( --brass ) 65%, var( --brass-shadow ));
     border-radius: 3px;
@@ -97,7 +97,7 @@
 
   &__head {
     position: absolute;
-    top: calc( var( --y ) - 42px );
+    top: calc( var( --y ) - 38px );
     left: calc( var( --x ) + var( --ink-size-side-indent ) - 9px );
     width: 18px;
     height: 30px;
@@ -114,7 +114,7 @@
 
   &__inkwell {
     position: absolute;
-    top: -16px;
+    top: calc( 100% + 18px );
     right: calc( var( --ink-size-side-indent ) + 14px );
     width: 26px;
     height: 20px;

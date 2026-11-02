@@ -100,7 +100,7 @@ const emotion = computed( (): TVisorEmotion => {
     return 'confusion';
   }
 
-  return isFilled.value ? 'smile' : 'interest';
+  return isFilled.value ? 'smile' : 'calm';
 });
 
 watch( () => props.text, () => {

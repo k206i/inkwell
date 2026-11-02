@@ -5,12 +5,12 @@
   border-radius: var( --ink-size-border-radius-s );
 
   &_carriage {
-    margin-top: 30px;
+    margin-bottom: 40px;
   }
 
   &__text {
     margin: 0;
-    padding: var( --ink-size-gap ) calc( var( --ink-size-gap ) + 8px );
+    padding: var( --ink-size-gap ) var( --ink-size-gap-l );
     font-family: var( --ink-font-paper );
     font-size: 19px;
     line-height: 2;

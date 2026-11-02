@@ -16,60 +16,54 @@
     white-space: nowrap;
   }
 
+  // Черновик: полупрозрачная проекция костюма
   &__gap {
     display: inline-block;
-    min-width: .9em;
+    width: 20px;
     height: 1.3em;
-    margin: 0 1px;
-    padding: 0 2px;
     font: inherit;
     line-height: 1.3em;
-    vertical-align: -.25em;
+    vertical-align: baseline;
     color: var( --ink-color-draft );
     background: none;
     border: none;
     border-radius: 6px;
-  }
+    transition: var( --ink-transition-all );
 
-  // Стёртое место: выцветшее пятно на бумаге
-  &__gap_empty {
-    background: radial-gradient( ellipse at center, var( --ink-color-paper-gap ) 30%, transparent 75% );
-  }
+    &_letter {
+      opacity: .55;
+    }
 
-  // Черновик: полупрозрачная проекция костюма
-  &__gap_letter {
-    opacity: .55;
-  }
+    // Стёртое место: выцветшее пятно на бумаге
+    &_empty {
+      background: radial-gradient( ellipse at center, var( --ink-color-paper-gap ) 30%, transparent 75% );
+      vertical-align: middle;
+    }
 
-  &__gap_space {
-    min-width: .6em;
-    border-bottom: 2px solid currentColor;
-    border-radius: 0;
-    opacity: .55;
-  }
+    &_space {
+      opacity: .55;
+    }
 
-  &__gap_nothing {
-    min-width: 4px;
-    width: 4px;
-    padding: 0;
-    background: currentColor;
-    opacity: .4;
-  }
+    &_nothing {
+      padding: 0;
+      opacity: .55;
+    }
 
-  // Итоги печати идут после черновиков, чтобы перекрыть прозрачность
-  &__gap_right {
-    opacity: 1;
-  }
+    &_right {
+      opacity: 1;
+    }
 
-  &__gap_wrong {
-    color: var( --ink-color-error );
-    text-decoration: underline wavy var( --ink-color-error );
-    opacity: 1;
-  }
+    &_wrong {
+      color: var( --ink-color-error );
+      text-decoration: underline wavy var( --ink-color-error );
+      opacity: 1;
+    }
 
-  &__gap_active {
-    outline: 2px solid var( --ink-color-theme );
-    outline-offset: 1px;
+    &_active {
+      box-shadow:
+              inset 0 0 10px var( --ink-color-theme ),
+              0 0 10px var( --ink-color-theme );
+    }
   }
 
   &__carriage {

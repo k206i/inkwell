@@ -29,6 +29,11 @@ const words = computed( (): TWordChunk[] => groupWords( props.parts ));
 const gapCount = computed( (): number => props.parts.filter( ( part: TTextPart ) => part.kind === 'gap' ).length );
 const step = computed( (): number => Math.min( STEP_MAX, Math.max( STEP_MIN, STEP_TOTAL / Math.max( 1, gapCount.value ))));
 
+// «Ничего» в пропуске посреди слова смыкает его части
+const innerGaps = computed( (): Set< number > => new Set( words.value.flatMap( ( chunk: TWordChunk ) => {
+  return chunk.kind === 'word' ? chunk.parts.slice( 1, -1 ).flatMap( ( part: TTextPart ) => part.kind === 'gap' ? [ part.gap.index ] : [] ) : [];
+})));
+
 const setGapElement = ( index: number, element: unknown ) => {
   if ( element instanceof HTMLElement ) {
     gapElements[index] = element;
@@ -94,6 +99,20 @@ const gapClass = ( gap: TGap ): string[] => {
 
   return [ ...classes, styles.paperSheet__gap_letter ];
 };
+
+const gapLabel = ( gap: TGap ): string => {
+  const draft: string | null = props.drafts[gap.index] ?? null;
+
+  if ( draft === '' ) {
+    return innerGaps.value.has( gap.index ) ? '‿' : '□';
+  }
+
+  if ( draft === ' ' ) {
+    return '|';
+  }
+
+  return draft ?? '';
+};
 </script>
 
 <template>
@@ -111,7 +130,7 @@ const gapClass = ( gap: TGap ): string[] => {
                 :disabled="props.results[part.gap.index] === 'right'"
                 type="button"
                 @click="emit( 'select', part.gap.index )"
-            >{{ props.drafts[part.gap.index] ?? '' }}</button>
+            >{{ gapLabel( part.gap ) }}</button>
           </template>
         </span>
       </template>

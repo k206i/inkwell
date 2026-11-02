@@ -18,8 +18,9 @@
     flex-direction: column;
     gap: var( --ink-size-gap-s );
     padding: var( --ink-size-gap-s ) var( --ink-size-side-indent ) calc( var( --ink-size-gap-s ) + var( --ion-safe-area-bottom, 0px ));
-    background: var( --ink-color-theme-dark );
     border-top: 1px solid var( --ink-color-theme-border );
+    border-radius: var( --ink-size-border-radius ) var( --ink-size-border-radius ) 0 0;
+    background: var( --ink-color-theme-dark );
   }
 
   &__ink {

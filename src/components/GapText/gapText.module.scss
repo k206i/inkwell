@@ -64,17 +64,21 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: var( --ink-size-gap-s );
+    gap: var( --ink-size-gap-xs );
     min-height: 44px;
-    padding: var( --ink-size-gap-xs ) var( --ink-size-gap-s ) var( --ink-size-gap-xs ) var( --ink-size-gap );
+    //padding: var( --ink-size-gap-xs ) var( --ink-size-gap-s ) var( --ink-size-gap-xs ) var( --ink-size-gap );
+    padding: 14px 20px 16px 30px;
     font: inherit;
     font-size: 14px;
     line-height: 1.25;
     text-align: left;
-    color: var( --ink-color-font );
-    background: color-mix( in srgb, var( --ink-color-theme-dark ), var( --ink-color-theme ) 6% );
-    border: 1px solid var( --ink-color-theme-border );
-    border-radius: var( --ink-size-border-radius );
+    //color: var( --ink-color-font );
+    color: var( --ink-color-paper-font );
+    background: url( '@/assets/img/emotions/bubble1.webp' ) no-repeat 0 0;
+    background-size: 100% 100%;
+    //background: color-mix( in srgb, var( --ink-color-theme-dark ), var( --ink-color-theme ) 6% );
+    //border: 1px solid var( --ink-color-theme-border );
+    //border-radius: var( --ink-size-border-radius );
 
     &::before {
       content: '';
@@ -93,8 +97,10 @@
 
   &__ruleSign {
     flex-shrink: 0;
+    margin-top: -7px;
     font-family: var( --ink-font-paper );
     font-size: 20px;
+    line-height: 1;
     color: var( --ink-color-theme );
   }
 

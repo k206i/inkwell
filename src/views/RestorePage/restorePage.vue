@@ -249,7 +249,7 @@ const onPrint = async () => {
                   disabled
                   type="button"
               >
-                Исправь ошибки: {{ errorCount }}
+                Исправьте ошибки: {{ errorCount }}
               </button>
 
               <button

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IonContent, IonIcon, IonPage, onIonViewWillEnter } from '@ionic/vue';
-import { waterOutline } from 'ionicons/icons';
+import { returnDownBackOutline, waterOutline } from 'ionicons/icons';
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import styles from './restorePage.module.scss';
@@ -8,6 +8,7 @@ import actionButton from '@/assets/styles/actionButton.module.scss';
 import AppHeader from '@/components/AppHeader/appHeader.vue';
 import InkLevel from '@/components/InkLevel/inkLevel.vue';
 import GapText, { type TSaePhrase } from '@/components/GapText/gapText.vue';
+import WidgetPrintAlert from '@/components/Widgets/Alert/widgetPrintAlert.vue';
 import { getPassageById } from '@/api/getPassageById';
 import type { TPassage } from '@/api/getPassages';
 import { getAuthors, getPassageSource, type TAuthor, type TPassageSource } from '@/api/getAuthors';
@@ -16,6 +17,7 @@ import { declineUnit } from '@/composables/declineUnit';
 import { appStore, archivePassage, recordAnswer, spendInk } from '@/store/appStore';
 
 type TStatus = 'idle' | 'errors' | 'noInk' | 'archived';
+type TPrintAlert = { text: string, warning?: boolean };
 
 const route = useRoute();
 const passage = ref< TPassage | null >( null );
@@ -103,6 +105,22 @@ const missingInk = computed( (): number => {
   return Math.max( 0, passage.value.gaps - appStore.ink );
 });
 
+const alert = computed( (): TPrintAlert | null => {
+  if ( missingInk.value > 0 ) {
+    return { text: `Не хватает ${ missingInk.value } ${ declineUnit( missingInk.value, 'drop' ) }`, warning: true };
+  }
+
+  if ( status.value === 'noInk' ) {
+    return { text: `На печать нужно ${ printCost.value } ${ declineUnit( printCost.value, 'drop' ) }, есть ${ appStore.ink }`, warning: true };
+  }
+
+  if ( isReplay.value && status.value !== 'archived' ) {
+    return { text: 'Повтор: чернила не тратятся' };
+  }
+
+  return null;
+});
+
 const isReady = computed( (): boolean => {
   return !isPrinting.value
     && status.value !== 'archived'
@@ -170,6 +188,13 @@ const onPrint = async () => {
             <p v-if="isLoaded && !passage">Абзац не найден.</p>
 
             <template v-if="passage">
+              <WidgetPrintAlert
+                  v-if="alert"
+                  :class="styles.restorePage__alert"
+                  :text="alert.text"
+                  :warning="alert.warning"
+              />
+
               <div :class="styles.restorePage__titleLabel">
                 {{ source?.author?.short }}
               </div>
@@ -178,29 +203,19 @@ const onPrint = async () => {
                 {{ source?.book?.title }}
               </div>
 
-              <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
-                Повтор: чернила не тратятся.
-              </p>
-
-              <p v-if="missingInk > 0" :class="styles.restorePage__notice">
-                Для этого абзаца не хватает {{ missingInk }} {{ declineUnit( missingInk, 'drop' ) }}.
-                <router-link to="/machine">К автомату чернил</router-link>
-              </p>
-
-              <template v-else>
-                <GapText
-                    ref="gapText"
-                    :key="attempt"
-                    v-model:drafts="drafts"
-                    v-model:results="results"
-                    carriage
-                    :disabled="isPrinting || status === 'archived'"
-                    :finished="status === 'archived'"
-                    :panel-target="panel"
-                    :phrase="saePhrase"
-                    :text="passage.text"
-                />
-              </template>
+              <GapText
+                  v-if="missingInk === 0"
+                  ref="gapText"
+                  :key="attempt"
+                  v-model:drafts="drafts"
+                  v-model:results="results"
+                  carriage
+                  :disabled="isPrinting || status === 'archived'"
+                  :finished="status === 'archived'"
+                  :panel-target="panel"
+                  :phrase="saePhrase"
+                  :text="passage.text"
+              />
             </template>
           </div>
         </div>
@@ -228,7 +243,6 @@ const onPrint = async () => {
 
             <template v-else-if="status === 'noInk'">
               <p :class="styles.restorePage__notice">
-                На печать нужно {{ printCost }} {{ declineUnit( printCost, 'drop' ) }}, а в чернильнице {{ appStore.ink }}.
                 Абзац придётся начать заново.
               </p>
 
@@ -263,10 +277,7 @@ const onPrint = async () => {
                   type="button"
                   @click="onPrint"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M20 5v6a3 3 0 0 1-3 3H6"></path>
-                  <path d="M10 10l-4 4 4 4"></path>
-                </svg>
+                <ion-icon :icon="returnDownBackOutline" />
 
                 Напечатать
 

@@ -94,7 +94,7 @@ defineExpose({ moveTo, strike, park });
     <img
         ref="head"
         :class="[ styles.printCarriage__head, { [styles.printCarriage__head_raised]: isRaised } ]"
-        src="@/assets/img/environment/carriage-head.svg?url"
+        src="@/assets/img/svg/carriage-head.svg?url"
         alt=""
     />
 

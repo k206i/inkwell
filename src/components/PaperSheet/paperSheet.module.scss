@@ -4,10 +4,6 @@
   background-size: 100% 100%;
   border-radius: var( --ink-size-border-radius-s );
 
-  &_carriage {
-    margin-bottom: 40px;
-  }
-
   &__text {
     margin: 0;
     padding: var( --ink-size-gap ) var( --ink-size-gap-l );
@@ -23,8 +19,8 @@
 
   // Черновик: полупрозрачная проекция костюма
   &__gap {
-    display: inline-block;
-    width: 20px;
+    display: inline-grid;
+    min-width: 20px;
     height: 1.3em;
     font: inherit;
     line-height: 1.3em;
@@ -68,6 +64,16 @@
       box-shadow:
               inset 0 0 10px var( --ink-color-theme ),
               0 0 10px var( --ink-color-theme );
+    }
+  }
+
+  // Скрытые варианты держат ширину пропуска по самому широкому, чтобы строка не прыгала
+  &__variant {
+    grid-area: 1 / 1;
+    visibility: hidden;
+
+    &_shown {
+      visibility: visible;
     }
   }
 }

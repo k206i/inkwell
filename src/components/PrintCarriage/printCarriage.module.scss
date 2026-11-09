@@ -1,11 +1,10 @@
 .printCarriage {
   --brass: #b08a43;
-  --brass-light: #e8cf8e;
-  --brass-highlight: #f0dda4;
   --brass-pale: #ecd9a0;
   --brass-deep: #8a6a2e;
-  --brass-dark: #6e5426;
-  --brass-shadow: #5e4720;
+  --silver: #a9b0b9;
+  --silver-light: #eef1f5;
+  --silver-shadow: #4a4f57;
   // Стоянка у чернильницы, пока moveTo не задал точку пропуска
   --x: calc( 100% - 2 * var( --ink-size-side-indent ) - 27px );
   --y: calc( 100% + 40px );
@@ -14,7 +13,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 100vw;
+  width: calc( 100% + 2 * var( --ink-size-side-indent ));
   margin-left: calc( -1 * var( --ink-size-side-indent ));
   pointer-events: none;
 
@@ -23,7 +22,7 @@
     top: 0;
     bottom: -40px;
     width: 6px;
-    background: linear-gradient( 90deg, var( --brass-shadow ), var( --brass-light ) 40%, var( --brass ) 65%, var( --brass-shadow ));
+    background: linear-gradient( 90deg, var( --silver-shadow ), var( --silver-light ) 40%, var( --silver ) 65%, var( --silver-shadow ));
     border-radius: 3px;
 
     &_left {
@@ -58,7 +57,7 @@
     right: calc( var( --ink-size-side-indent ) - 10px );
     left: calc( var( --ink-size-side-indent ) - 10px );
     height: 4px;
-    background: linear-gradient( 180deg, var( --brass-highlight ), var( --brass ) 60%, var( --brass-dark ));
+    background: linear-gradient( 180deg, var( --silver-light ), var( --silver ) 60%, var( --silver-shadow ));
     border-radius: 2px;
     box-shadow: 0 4px 5px -1px rgba( 45, 30, 10, .35 );
     transition: top var( --step ) ease-in-out;
@@ -97,7 +96,7 @@
 
   &__head {
     position: absolute;
-    top: calc( var( --y ) - 38px );
+    top: calc( var( --y ) - 30px );
     left: calc( var( --x ) + var( --ink-size-side-indent ) - 9px );
     width: 18px;
     height: 30px;
@@ -108,15 +107,14 @@
             transform var( --lift ) ease-in-out;
 
     &_raised {
-      transform: translateY( -14px );
+      transform: translateY( -10px );
     }
   }
 
   &__inkwell {
     position: absolute;
-    top: calc( 100% + 18px );
-    right: calc( var( --ink-size-side-indent ) + 14px );
-    width: 26px;
-    height: 20px;
+    top: calc( 100% + 22px );
+    right: calc( var( --ink-size-side-indent ) + 5px );
+    width: 45px;
   }
 }

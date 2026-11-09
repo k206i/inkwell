@@ -166,39 +166,43 @@ const onPrint = async () => {
     <ion-content :fullscreen="true" :scroll-y="false">
       <div :class="styles.restorePage">
         <div :class="styles.restorePage__text">
-          <p v-if="isLoaded && !passage">Абзац не найден.</p>
+          <div :class="styles.restorePage__column">
+            <p v-if="isLoaded && !passage">Абзац не найден.</p>
 
-          <template v-if="passage">
-            <div :class="styles.restorePage__title">
-              {{ source?.book?.title }}
-            </div>
+            <template v-if="passage">
+              <div :class="styles.restorePage__titleLabel">
+                {{ source?.author?.short }}
+              </div>
 
-            <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
-              Повтор: чернила не тратятся.
-            </p>
+              <div :class="styles.restorePage__title">
+                {{ source?.book?.title }}
+              </div>
 
-            <p v-if="missingInk > 0" :class="styles.restorePage__notice">
-              Для этого абзаца не хватает {{ missingInk }} {{ declineUnit( missingInk, 'drop' ) }}.
-              <router-link to="/machine">К автомату чернил</router-link>
-            </p>
+              <p v-if="isReplay && status !== 'archived'" :class="[ styles.restorePage__notice, styles.restorePage__replay ]">
+                Повтор: чернила не тратятся.
+              </p>
 
-            <template v-else>
-              <GapText
-                  ref="gapText"
-                  :key="attempt"
-                  v-model:drafts="drafts"
-                  v-model:results="results"
-                  carriage
-                  :disabled="isPrinting || status === 'archived'"
-                  :finished="status === 'archived'"
-                  :panel-target="panel"
-                  :phrase="saePhrase"
-                  :text="passage.text"
-              />
+              <p v-if="missingInk > 0" :class="styles.restorePage__notice">
+                Для этого абзаца не хватает {{ missingInk }} {{ declineUnit( missingInk, 'drop' ) }}.
+                <router-link to="/machine">К автомату чернил</router-link>
+              </p>
 
-              <p :class="styles.restorePage__source">{{ source?.author?.short }}, «{{ source?.book?.title }}»</p>
+              <template v-else>
+                <GapText
+                    ref="gapText"
+                    :key="attempt"
+                    v-model:drafts="drafts"
+                    v-model:results="results"
+                    carriage
+                    :disabled="isPrinting || status === 'archived'"
+                    :finished="status === 'archived'"
+                    :panel-target="panel"
+                    :phrase="saePhrase"
+                    :text="passage.text"
+                />
+              </template>
             </template>
-          </template>
+          </div>
         </div>
 
         <div v-if="passage && missingInk === 0" :class="styles.restorePage__panel">

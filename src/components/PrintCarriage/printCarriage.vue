@@ -98,6 +98,6 @@ defineExpose({ moveTo, strike, park });
         alt=""
     />
 
-    <img :class="styles.printCarriage__inkwell" src="@/assets/img/environment/carriage-inkwell.svg?url" alt="" />
+    <img :class="styles.printCarriage__inkwell" src="@/assets/img/environment/inkwell.webp" alt="" />
   </div>
 </template>

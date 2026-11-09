@@ -1,0 +1,7 @@
+$wide: 992px;
+
+@mixin wide {
+  @media ( min-width: $wide ) {
+    @content;
+  }
+}

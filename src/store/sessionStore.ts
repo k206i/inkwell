@@ -5,6 +5,7 @@ type TSessionStore = {
   isWide: boolean, // планшетная раскладка, от 992px
 }
 
+// Граница совпадает с $wide в breakpoints.scss
 const wideQuery: MediaQueryList = window.matchMedia( '(min-width: 992px)' );
 
 export const sessionStore: TSessionStore = reactive({

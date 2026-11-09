@@ -92,18 +92,16 @@ const gapClass = ( gap: TGap ): string[] => {
   return [ ...classes, styles.paperSheet__gap_letter ];
 };
 
-const gapLabel = ( gap: TGap ): string => {
-  const draft: string | null = props.drafts[gap.index] ?? null;
-
-  if ( draft === '' ) {
+const optionLabel = ( gap: TGap, option: string ): string => {
+  if ( option === '' ) {
     return innerGaps.value.has( gap.index ) ? '‿' : '□';
   }
 
-  if ( draft === ' ' ) {
+  if ( option === ' ' ) {
     return '|';
   }
 
-  return draft ?? '';
+  return option;
 };
 </script>
 
@@ -122,7 +120,13 @@ const gapLabel = ( gap: TGap ): string => {
                 :disabled="props.results[part.gap.index] === 'right'"
                 type="button"
                 @click="emit( 'select', part.gap.index )"
-            >{{ gapLabel( part.gap ) }}</button>
+            >
+              <span
+                  v-for="option in part.gap.options"
+                  :key="option"
+                  :class="[ styles.paperSheet__variant, { [styles.paperSheet__variant_shown]: option === props.drafts[part.gap.index] } ]"
+              >{{ optionLabel( part.gap, option ) }}</span>
+            </button>
           </template>
         </span>
       </template>

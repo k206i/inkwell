@@ -164,7 +164,7 @@ Vue 3 Composition API (`<script setup lang="ts">`), TypeScript strict, Vite, ali
 - Типы с префиксом `T` (`TPayload`, `TTextData`).
 - Пропсы через `defineProps<{...}>()`, в шаблоне обращение через `props.x`.
 - Сторы в `src/store/`: `appStore` хранит прогресс игрока и сохраняется в `Preferences`, `sessionStore` хранит состояние сессии и не сохраняется.
-- Раскладку (телефон или планшет от 992px) знает только `sessionStore.isWide`, компоненты свои `matchMedia` не заводят. Для чисто визуальных отличий хватит `@media` в стилях компонента.
+- Раскладку (телефон или планшет от 992px) знает только `sessionStore.isWide`, компоненты свои `matchMedia` не заводят. Для чисто визуальных отличий хватит `@include breakpoints.wide` в стилях компонента (`src/assets/styles/breakpoints.scss`).
 
 ## Code style
 

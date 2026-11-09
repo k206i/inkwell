@@ -1,15 +1,25 @@
 @use "@/assets/styles/typography";
+@use "@/assets/styles/breakpoints";
 
 .restorePage {
   display: flex;
   flex-direction: column;
   height: 100%;
 
+  @include breakpoints.wide {
+    flex-direction: row;
+  }
+
   &__text {
     flex-grow: 1;
     min-height: 0;
-    padding: var( --ink-size-side-indent );
+    padding: var( --ink-size-side-indent ) var( --ink-size-side-indent ) 70px;
     overflow-y: auto;
+  }
+
+  &__column {
+    max-width: calc( 600px - 2 * var( --ink-size-side-indent ));
+    margin: 0 auto;
   }
 
   &__panel {
@@ -22,12 +32,28 @@
     border-top: 1px solid var( --ink-color-theme-border );
     border-radius: var( --ink-size-border-radius ) var( --ink-size-border-radius ) 0 0;
     background: var( --ink-color-theme-dark );
-
     box-shadow: 0 -5px 24px var( --ink-color-theme-dark );
+
+    @include breakpoints.wide {
+      width: 400px;
+      padding: 50px var( --ink-size-side-indent ) calc( var( --ink-size-gap ) + var( --ion-safe-area-bottom, 0px ));
+      border-top: none;
+      border-left: 1px solid var( --ink-color-theme-border );
+      border-radius: 0;
+      box-shadow: -5px 0 24px var( --ink-color-theme-dark );
+    }
   }
 
   &__ink {
     margin-bottom: var( --ink-size-gap );
+  }
+
+  &__titleLabel {
+    margin-bottom: -5px;
+    font-family: var( --ink-font-default-alt );
+    font-size: 12px;
+    font-style: italic;
+    color: var( --ink-color-font-low );
   }
 
   &__title {
@@ -36,18 +62,15 @@
     margin-bottom: var( --ink-size-gap );
   }
 
-  &__source {
-    margin: var( --ink-size-gap-s ) 0 0;
-    font-size: 14px;
-    text-align: right;
-    color: var( --ink-color-font-low );
-  }
-
   &__actions {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var( --ink-size-gap-s );
+
+    @include breakpoints.wide {
+      margin-top: auto;
+    }
   }
 
   &__print {
